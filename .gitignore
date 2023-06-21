@@ -33,4 +33,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-i18n-types.ts
+/src/i18n/*.tsx
+/src/i18n/*.ts
+!/src/i18n/formatters.ts
