@@ -1,44 +1,38 @@
-import './globals.css'
-import { Inter } from 'next/font/google'
-
-import { loadLocaleAsync } from '@/i18n/i18n-util.async'
-import { i18nObject } from '@/i18n/i18n-util'
+'use client';
+import './globals.css';
+import { loadLocaleAsync } from '@/i18n/i18n-util.async';
+import { i18nObject } from '@/i18n/i18n-util';
 import type { Locales } from '@/i18n/i18n-types';
-
-const inter = Inter({ subsets: ['latin'] })
+import { initFlowbite } from 'flowbite';
+import { CairoFont, Aref_Ruqaa, inter } from '../helpers/fonts';
+import Header from './components/general/header';
 
 export default async function RootLayout({
   children, params
 }: {
   children: React.ReactNode,
-  params: {
-    lang: string
-  }
+  params: PageProps
 }) {
   await loadLocaleAsync(params.lang as Locales);
   const LL = i18nObject(params.lang as Locales);
 
-  return (
-    <html lang={params.lang} className="bg-[url('/../images/background.png')] bg-cover bg-no-repeat">
-      <body className={inter.className}>
-        <header className='flex bg-gradient-to-bl from-[#4A3470] to-[#326C85] p-3 text-white border-b-[1px] border-black sticky top-0'>
-          <nav className='flex flex-auto md:justify-around'>
-            {
-              [
-                ['Homex', '/'],
-                ['Home', '/']
-              ].map(([title, url]) => (
-                <a key={title} href={url}>{title}</a>
-              ))
-            }
-          </nav>
-        </header>
 
+  if (typeof window !== 'undefined') {
+    //do stuff related with dom
+    initFlowbite();
+  }
+
+  return (
+    <html lang={params.lang} className={`bg-[url('/../images/background.png')] bg-cover bg-no-repeat ${inter.className} ${CairoFont.variable} ${Aref_Ruqaa.variable} bg-center md:bg-unset bg-fixed`}>
+      <body>
+
+        <Header title={LL.siteTitle()} />
+        
         {children}
 
-        <footer className='flex flex-col items-center gap-2 bg-gradient-to-bl from-[#4A3470] to-[#326C85]/75 backdrop-blur-3xl pt-3 rounded-t-xl text-white'>
-          <div className='w-1/4'>
-            <ul className='flex flex-auto justify-between'>
+        <footer className='flex flex-col md:items-center gap-2 bg-gradient-to-bl from-[#4A3470] to-[#326C85]/75 backdrop-blur-3xl pt-3 rounded-t-xl text-white'>
+          <div className='md:w-1/4'>
+            <ul className='flex flex-auto justify-around md:justify-between'>
               <li>
                 <a href="https://twitter.com/abdo_alghoul">
                   <svg
@@ -108,11 +102,17 @@ export default async function RootLayout({
 
             </ul>
           </div>
-          <div>
+          <div className='self-center'>
             {LL.copyRightNotice({ year: new Date().getFullYear().toLocaleString(params.lang, { useGrouping: false }) })}
           </div>
         </footer>
       </body>
     </html>
   )
+}
+
+
+
+interface PageProps {
+  lang: string
 }
