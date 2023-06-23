@@ -5,7 +5,7 @@ import { i18nObject } from '@/i18n/i18n-util';
 import type { Locales } from '@/i18n/i18n-types';
 import { initFlowbite } from 'flowbite';
 import { CairoFont, Aref_Ruqaa, inter } from '../helpers/fonts';
-import Header from './components/general/header';
+import Header from './components/general/Header';
 
 export default async function RootLayout({
   children, params
@@ -16,7 +16,6 @@ export default async function RootLayout({
   await loadLocaleAsync(params.lang as Locales);
   const LL = i18nObject(params.lang as Locales);
 
-
   if (typeof window !== 'undefined') {
     //do stuff related with dom
     initFlowbite();
@@ -26,11 +25,11 @@ export default async function RootLayout({
     <html lang={params.lang} className={`bg-[url('/../images/background.png')] bg-cover bg-no-repeat ${inter.className} ${CairoFont.variable} ${Aref_Ruqaa.variable} bg-center md:bg-unset bg-fixed`}>
       <body>
 
-        <Header title={LL.siteTitle()} />
-        
+        <Header LL={LL} lang={params.lang} />
+
         {children}
 
-        <footer className='flex flex-col md:items-center gap-2 bg-gradient-to-bl from-[#4A3470] to-[#326C85]/75 backdrop-blur-3xl pt-3 rounded-t-xl text-white'>
+        <footer id={'footer'} className='flex flex-col md:items-center gap-2 bg-gradient-to-bl from-[#4A3470] to-[#326C85]/75 backdrop-blur-3xl pt-3 rounded-t-xl text-white'>
           <div className='md:w-1/4'>
             <ul className='flex flex-auto justify-around md:justify-between'>
               <li>
