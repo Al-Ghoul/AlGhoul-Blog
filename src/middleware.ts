@@ -29,7 +29,7 @@ export function middleware(request: NextRequest) {    // Check if there is any s
 export const config = {
     matcher: [
         // Skip all internal paths (_next)
-        "/(favicon.ico)?((?!api|static|.*\\..*|_next|favicon.ico|robots.txt).*)",
+        "/((?!api|static|.*\\..*|_next|favicon.ico|robots.txt).*)",
         // Optional: only run on root (/) URL
         // '/'
     ],
