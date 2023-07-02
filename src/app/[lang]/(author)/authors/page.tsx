@@ -4,6 +4,7 @@ import type { Locales } from '@/i18n/i18n-types';
 import { Metadata } from 'next'
 import { allDocuments, isType } from 'contentlayer/generated'
 import { FilterByLang } from '@/helpers';
+import Link from 'next/link';
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     await loadLocaleAsync(params.lang as Locales);
@@ -35,9 +36,9 @@ export default async function Tags({ params }: PageProps) {
                         const authorsCount = allPosts.filter(post => post.author.includes(author.name)).length;
                         return (
                             <li className='my-2 mr-5' key={author._id}>
-                                <a href={`/${params.lang}/author/${author.name}`}>
+                                <Link href={`/${params.lang}/author/${author.name}`}>
                                     {author.name} : ({authorsCount})
-                                </a>
+                                </Link>
                             </li>
                         );
                     }

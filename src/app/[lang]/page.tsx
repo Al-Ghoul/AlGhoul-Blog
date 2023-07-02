@@ -5,7 +5,8 @@ import type { Locales } from '@/i18n/i18n-types';
 import Welcome from '@/components/general/Welcome';
 import { allDocuments, isType } from 'contentlayer/generated'
 import { FilterByLang, DateHoursDiff } from '@/helpers';
-
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default async function Home({ params }: PageProps) {
   await loadLocaleAsync(params.lang as Locales);
@@ -37,7 +38,7 @@ export default async function Home({ params }: PageProps) {
                   <div className="flex justify-between items-center mb-5 text-white">
                     <div className="flex justify-around">
                       {tags.map(tag => (
-                        <a key={tag._id} href={`/${params.lang}/tag/${tag.name}`}>
+                        <Link key={tag._id} href={`/${params.lang}/tag/${tag.name}`}>
                           <span className="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded">
                             <svg className="mx-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                               <path d={`${tag.svgIconPath}`}>
@@ -45,28 +46,35 @@ export default async function Home({ params }: PageProps) {
                             </svg>
                             {tag.name}
                           </span>
-                        </a>
+                        </Link>
                       ))}
                     </div>
 
                     <span className="text-sm">{LL.HOURS_AGO({ hours: DateHoursDiff(post.date) })}</span>
                   </div>
 
-                  <h2 className="mb-2 text-2xl font-bold tracking-tight text-white"><a href={`/${params.lang}/post/${post.title}`}>{post.title}</a></h2>
+                  <h2 className="mb-2 text-2xl font-bold tracking-tight text-white">
+                    <Link href={`/${params.lang}/post/${post.title}`}>
+                      {post.title}
+                    </Link>
+                  </h2>
                   <p className="mb-5 font-light text-gray-200">{post.body.raw.length > 1 ? `${post.body.raw.substring(1, 500)}...` : 'No content?'}</p>
 
                   <div className="flex justify-between items-center mt-auto">
 
                     <div className="flex items-center">
-                      <a className='inline-flex' href={`/${params.lang}/author/${author.name}`}>
-                        <img className="w-7 h-7 rounded-full" src={`${author.profilePicture}`} alt={`${post.author}'s avatar`} />
+                      <Link className='inline-flex' href={`/${params.lang}/author/${author.name}`}>
+                        <div className='relative w-7 h-7'>
+
+                          <Image className="rounded-full" fill src={`${author.profilePicture}`} alt={`${post.author}'s avatar`} />
+                        </div>
                         <span className="font-medium text-white mx-2">
                           {author.name}
                         </span>
-                      </a>
+                      </Link>
                     </div>
 
-                    <a href={`/${params.lang}/post/${post.title}`} className="inline-flex items-center font-medium text-white hover:underline">
+                    <Link href={`/${params.lang}/post/${post.title}`} className="inline-flex items-center font-medium text-white hover:underline">
                       {LL.READ_MORE()}
                       <svg className="mx-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         {
@@ -76,7 +84,7 @@ export default async function Home({ params }: PageProps) {
                             <path fillRule="evenodd" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" clipRule="evenodd" />
                         }
                       </svg>
-                    </a>
+                    </Link>
                   </div>
                 </article>
               );

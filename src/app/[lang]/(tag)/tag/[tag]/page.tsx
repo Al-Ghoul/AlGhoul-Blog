@@ -5,6 +5,7 @@ import { Metadata } from 'next'
 import { allDocuments, isType } from 'contentlayer/generated'
 import { CapitalizeFirstLetter, FilterByLang } from '@/helpers';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     await loadLocaleAsync(params.lang as Locales);
@@ -40,9 +41,9 @@ export default async function TagPage({ params }: PageProps) {
                 <ul className='flex flex-wrap max-w-lg text-white text-2xl'>
                     {posts.map(post => (
                         <li className='my-2 mr-5' key={post._id}>
-                            <a href={`/${params.lang}/post/${post.title}`}>
+                            <Link href={`/${params.lang}/post/${post.title}`}>
                                 {post.title}
-                            </a>
+                            </Link>
                         </li>
                     ))}
                 </ul>

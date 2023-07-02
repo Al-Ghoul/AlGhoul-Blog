@@ -4,6 +4,7 @@ import type { Locales } from '@/i18n/i18n-types';
 import { Metadata } from 'next'
 import { allDocuments, isType } from 'contentlayer/generated'
 import { FilterByLang } from '@/helpers';
+import Link from 'next/link';
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     await loadLocaleAsync(params.lang as Locales);
@@ -35,9 +36,9 @@ export default async function Tags({ params }: PageProps) {
                         const tagCount = allPosts.filter(post => post.tag.includes(tag.name)).length;
                         return (
                             <li className='my-2 mr-5' key={tag._id}>
-                                <a href={`/${params.lang}/tag/${tag.name}`}>
+                                <Link href={`/${params.lang}/tag/${tag.name}`}>
                                     {tag.name} : ({tagCount})
-                                </a>
+                                </Link>
                             </li>
                         );
                     }

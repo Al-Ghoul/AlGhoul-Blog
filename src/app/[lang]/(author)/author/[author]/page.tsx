@@ -5,6 +5,7 @@ import { allDocuments, isType } from 'contentlayer/generated'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { FilterByLang } from '@/helpers';
+import Link from 'next/link';
 
 export default async function AuthorPage({ params }: PageProps) {
     await loadLocaleAsync(params.lang as Locales);
@@ -42,9 +43,9 @@ export default async function AuthorPage({ params }: PageProps) {
                 <ul className='flex flex-wrap max-w-lg text-white text-2xl'>
                     {authorsPost.map(post => (
                         <li className='my-2 mr-5' key={post._id}>
-                            <a href={`/${params.lang}/post/${post.title}`}>
+                            <Link href={`/${params.lang}/post/${post.title}`}>
                                 {post.title}
-                            </a>
+                            </Link>
                         </li>
                     ))}
                 </ul>
