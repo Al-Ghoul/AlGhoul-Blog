@@ -36,3 +36,4 @@ next-env.d.ts
 /src/i18n/*.tsx
 /src/i18n/*.ts
 !/src/i18n/formatters.ts
+.contentlayer/

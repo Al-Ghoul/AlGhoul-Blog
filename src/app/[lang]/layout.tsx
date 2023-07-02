@@ -1,11 +1,19 @@
-'use client';
 import './globals.css';
+import { type Metadata } from 'next/types';
 import { loadLocaleAsync } from '@/i18n/i18n-util.async';
 import { i18nObject } from '@/i18n/i18n-util';
 import type { Locales } from '@/i18n/i18n-types';
-import { initFlowbite } from 'flowbite';
-import { CairoFont, Aref_Ruqaa, inter } from '../helpers/fonts';
-import Header from './components/general/Header';
+import { CairoFont, Aref_Ruqaa, inter } from '@/helpers/fonts';
+import Header from '@/components/general/Header';
+
+export async function generateMetadata({ params }: { params: PageProps }): Promise<Metadata> {
+  await loadLocaleAsync(params.lang as Locales);
+  const LL = i18nObject(params.lang as Locales);
+
+  return {
+    title: LL.siteTitle(),
+  }
+}
 
 export default async function RootLayout({
   children, params
@@ -16,16 +24,11 @@ export default async function RootLayout({
   await loadLocaleAsync(params.lang as Locales);
   const LL = i18nObject(params.lang as Locales);
 
-  if (typeof window !== 'undefined') {
-    //do stuff related with dom
-    initFlowbite();
-  }
-
   return (
     <html lang={params.lang} className={`bg-[url('/../images/background.png')] bg-cover bg-no-repeat ${inter.className} ${CairoFont.variable} ${Aref_Ruqaa.variable} bg-center md:bg-unset bg-fixed`}>
       <body>
 
-        <Header LL={LL} lang={params.lang} />
+        <Header lang={params.lang} />
 
         {children}
 

@@ -1,7 +1,6 @@
 import type { Translation } from '../i18n-types'
 
 const en = {
-	// this is an example Translation, just rename or delete this folder if you want
 	siteTitle: 'AlGhoul',
 	copyRightNotice: 'AlGhoul © {year}',
 	WELCOMING: [
@@ -12,6 +11,11 @@ const en = {
 	BLOG_ENTRY: 'There\'s plenty of resources for lots of learning materials out there, it is our privilege that we exist in this era, be inspired and use it wisely.',
 	HOME_PAGE: 'Home',
 	ABOUT_US: 'About us',
+	TAGS_PAGE: 'Tags',
+	AUTHORS_PAGE: 'Authors',
+	READ_MORE: 'Read more',
+	HOURS_AGO: '{hours} {{hour|hours}} ago.',
+	AUTHOR_POSTS_PAGE: '{name}\'s Posts'
 } satisfies Translation
 
 export default en
