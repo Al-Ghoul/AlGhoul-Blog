@@ -36,7 +36,7 @@ export default async function RootLayout({
           <div className='md:w-1/4'>
             <ul className='flex flex-auto justify-around md:justify-between'>
               <li>
-                <a href="https://twitter.com/abdo_alghoul">
+                <a href="https://twitter.com/abdo_alghoul" target="_blank">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"
@@ -49,7 +49,7 @@ export default async function RootLayout({
               </li>
 
               <li>
-                <a href="https://www.instagram.com/abdo.alghoul/">
+                <a href="https://www.instagram.com/abdo.alghoul/" target="_blank">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"
@@ -62,7 +62,7 @@ export default async function RootLayout({
               </li>
 
               <li>
-                <a href="https://github.com/Al-Ghoul">
+                <a href="https://github.com/Al-Ghoul" target="_blank">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"
@@ -75,7 +75,7 @@ export default async function RootLayout({
               </li>
 
               <li>
-                <a href="https://www.facebook.com/abdo.alghouul/">
+                <a href="https://www.facebook.com/abdo.alghouul/" target="_blank">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"
@@ -88,7 +88,7 @@ export default async function RootLayout({
               </li>
 
               <li>
-                <a href="https://discord.gg/nxA67CjQZY">
+                <a href="https://discord.gg/nxA67CjQZY" target="_blank">
                   <svg
                     className="h-5 w-5"
                     fill="white"
@@ -105,7 +105,7 @@ export default async function RootLayout({
             </ul>
           </div>
           <div className='self-center'>
-            {LL.copyRightNotice({ year: new Date().getFullYear().toLocaleString(params.lang, { useGrouping: false }) })}
+            {LL.copyRightNotice({ year: new Date().getFullYear() })}
           </div>
         </footer>
       </body>
