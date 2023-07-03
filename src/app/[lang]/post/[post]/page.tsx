@@ -4,12 +4,17 @@ import type { Locales } from '@/i18n/i18n-types';
 import { allDocuments, isType } from 'contentlayer/generated'
 import Image from 'next/image'
 import Link from 'next/link';
+import { MDXRemote } from 'next-mdx-remote/rsc'
+import rehypeHighlight from 'rehype-highlight';
+import "public/styles/highlight-js/androidstudio.css"
+import Pre from '@/components/general/pre';
 
 const PostPage = async ({ params }: PageProps) => {
     await loadLocaleAsync(params.lang as Locales);
     const LL = i18nObject(params.lang as Locales);
     const post = allDocuments.filter(isType(['Post'])).filter(post => post.title.toLowerCase() === decodeURI(params.post).toLowerCase())[0];
     const author = allDocuments.filter(isType(['Author'])).filter(author => post.author.includes(author.name))[0];
+
 
     return (
         <main className="flex min-h-screen p-1 md:p-24">
@@ -43,7 +48,22 @@ const PostPage = async ({ params }: PageProps) => {
                     </header>
 
                     <div className='border-s border-white p-5'>
-                        {post.body.raw}
+                        <div className='prose prose-p:text-white'>
+                            <MDXRemote
+                                source={post.body.raw}
+                                options={{
+                                    mdxOptions: {
+                                        remarkPlugins: [],
+                                        rehypePlugins: [rehypeHighlight],
+                                    }
+                                }}
+                                components={
+                                    {
+                                        pre: Pre
+                                    }
+                                }
+                            />
+                        </div>
                     </div>
 
                     <div className='col-span-2 border-t border-white'>
