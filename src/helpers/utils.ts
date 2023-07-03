@@ -16,6 +16,16 @@ export const DateHoursDiff = (date: string): number => {
 export const CapitalizeFirstLetter = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1);
 
 
+export function isAuthor(author: Entity): author is Author {
+    return (author as Author).profilePicture !== undefined;
+}
 
+export function isPost(post: Entity): post is Post {
+    return (post as Post).published !== undefined;
+}
+
+export function isTag(tag: Entity): tag is Tag {
+    return (tag as Tag).icon !== undefined;
+}
 
 type Entity = Tag | Post | Author;

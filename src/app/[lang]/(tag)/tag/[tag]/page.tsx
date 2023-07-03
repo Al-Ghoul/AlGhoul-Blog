@@ -6,6 +6,7 @@ import { allDocuments, isType } from 'contentlayer/generated'
 import { CapitalizeFirstLetter, FilterByLang } from '@/helpers';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import CommonContainer from '@/components/general/CommonContainer';
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     await loadLocaleAsync(params.lang as Locales);
@@ -28,34 +29,17 @@ export default async function TagPage({ params }: PageProps) {
     const posts = allDocuments.filter(isType(['Post'])).filter(post => post.tag.map(tag => tag.toLowerCase()).includes(tag.name.toLowerCase()) && FilterByLang(post, params.lang));
 
     return (
-        <main className="flex min-h-screen p-24">
-            <div
-                className="flex flex-col w-[788px] h-[384px] mx-auto lg:mb-16 mb-8 backdrop-blur-3xl bg-black/25 rounded-xl p-3"
-                dir={params.lang == 'ar' ? 'rtl' : ''}
-            >
-                <p className='text-white font-semibold text-6xl pb-3'>
-                    {LL.TAGS_PAGE()} - {tag.name}
-                </p>
-                <hr />
-
-                <ul className='flex flex-wrap max-w-lg text-white text-2xl'>
-                    {posts.map(post => (
-                        <li className='my-2 mr-5' key={post._id}>
-                            <Link href={`/${params.lang}/post/${post.title}`}>
-                                {post.title}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </main>
+        <CommonContainer lang={params.lang}
+            header={`${LL.TAGS_PAGE()} - ${tag.name}`}
+            contentList={posts}
+        />
     );
 }
 
 
 export const generateStaticParams = async () => {
     const tags = allDocuments.filter(isType(['Tag']));
-    
+
     return tags.map(tags => { tag: tags.name });
 }
 
