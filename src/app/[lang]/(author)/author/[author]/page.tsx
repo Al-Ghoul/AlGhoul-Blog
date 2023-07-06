@@ -1,23 +1,33 @@
 import { loadLocaleAsync } from '@/i18n/i18n-util.async';
 import { i18nObject } from '@/i18n/i18n-util';
 import type { Locales } from '@/i18n/i18n-types';
-import { allDocuments, isType } from 'contentlayer/generated'
-import { notFound } from 'next/navigation'
-import { FilterByLang } from '@/helpers';
 import CommonContainer from '@/components/general/CommonContainer';
+import { GetAuthorByName, GetPostsByAuthorAndLanguage } from '@/helpers/db';
+import { Metadata } from 'next'
+import { CapitalizeFirstLetter } from '@/helpers';
 
-export default async function AuthorPage({ params }: PageProps) {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     await loadLocaleAsync(params.lang as Locales);
     const LL = i18nObject(params.lang as Locales);
-    const author = allDocuments.filter(isType(['Author'])).filter(author => author.name.toLowerCase() == decodeURI(params.author).toLowerCase())[0];
+    const authorName = decodeURI(params.author);
 
-    if (!!!author) notFound();
+    return {
+        title: `${LL.siteTitle()} - ${CapitalizeFirstLetter(authorName)}`,
+    }
+}
 
-    const authorsPosts = allDocuments.filter(isType(['Post'])).filter(post => post.author.includes(author.name) && FilterByLang(post, params.lang));
+
+export default async function AuthorPage({ params }: PageProps) {
+    const author = await GetAuthorByName(decodeURI(params.author));
+
+    await loadLocaleAsync(params.lang as Locales);
+    const LL = i18nObject(params.lang as Locales);
+    const authorsPosts = await GetPostsByAuthorAndLanguage(author!.name, params.lang);
 
     return (
-        <CommonContainer lang={params.lang}
-            header={LL.AUTHOR_POSTS_PAGE({ name: author.name })}
+        <CommonContainer
+            lang={params.lang}
+            header={LL.AUTHOR_POSTS_PAGE({ name: params.author })}
             contentList={authorsPosts}
             author={author}
         />

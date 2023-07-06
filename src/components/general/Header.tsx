@@ -5,9 +5,8 @@ import { i18nObject } from '@/i18n/i18n-util';
 import type { Locales } from '@/i18n/i18n-types';
 import { initFlowbite } from 'flowbite';
 import { usePathname } from 'next/navigation'
-import { SA, US } from 'country-flag-icons/react/3x2'
-import { allDocuments, isType } from 'contentlayer/generated'
 import Link from 'next/link';
+import LanguageSelector from './LanguageSelector';
 
 const Header = async ({ lang }: Props) => {
     const paths = usePathname().split('/');
@@ -15,7 +14,6 @@ const Header = async ({ lang }: Props) => {
     const isArabic = lang == 'ar';
     await loadLocaleAsync(lang as Locales);
     const LL = i18nObject(lang as Locales);
-    const language = allDocuments.filter(isType(['Language'])).filter(language => language.code == lang)[0];
 
     if (typeof window !== 'undefined') {
         //do stuff related with dom
@@ -29,41 +27,8 @@ const Header = async ({ lang }: Props) => {
                 <Link href={`/${lang}`} className="flex items-center">
                     <span className='self-center text-xl md:text-3xl whitespace-nowrap text-[#f53c3c] font-aref'>{LL.siteTitle()}</span>
                 </Link>
-
-                <div className="flex items-center md:order-2">
-                    <button
-                        type="button" data-dropdown-toggle="language-dropdown-menu"
-                        className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-white rounded-lg cursor-pointer">
-                        {
-                            isArabic
-                                ?
-                                <SA title="United States" className='h-4 w-4 mr-1' />
-                                :
-                                <US title="United States" className='h-4 w-4 mr-1' />
-                        }
-
-                        {language.name}
-
-                    </button>
-                    <div className="z-50 hidden my-4 text-base list-none divide-y divide-gray-100 rounded-lg shadow bg-gradient-to-bl from-[#4A3470] to-[#326C85]" id="language-dropdown-menu">
-                        <ul className="py-2 font-medium" role="none">
-                            <li>
-                                <Link href={`/ar`} className="block px-4 py-2 text-sm hover:text-blue-400" role="menuitem">
-                                    <div className="inline-flex items-center">
-                                        <SA title="United States" className='h-4 w-4 mr-1' /> العربية (KSA)
-                                    </div>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={`/en`} className="block px-4 py-2 text-sm hover:text-blue-400" role="menuitem">
-                                    <div className="inline-flex items-center">
-                                        <US title="United States" className='h-4 w-4 mr-1' /> English (US)
-                                    </div>
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                
+                <LanguageSelector languageCode={lang} />
 
                 <button data-collapse-toggle="navbar-dropdown" type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-dropdown" aria-expanded="false">
                     <span className="sr-only">Open main menu</span>
@@ -97,7 +62,7 @@ const Header = async ({ lang }: Props) => {
                             <Link href={`/${lang}/about`} className={`block py-2 pl-3 pr-4 
                             ${currentActiveRoute == 'about' ? 'text-blue-500' : 'text-white'}
                             ${isArabic ? 'font-medium text-lg' : ''}
-                            roundedmd:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0`}>{LL.ABOUT_US()}
+                            rounded md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0`}>{LL.ABOUT_US()}
                             </Link>
                         </li>
                     </ul>
@@ -109,7 +74,7 @@ const Header = async ({ lang }: Props) => {
 }
 
 interface Props {
-    lang: string,
+    lang: 'en' | 'ar',
 }
 
 export default Header;

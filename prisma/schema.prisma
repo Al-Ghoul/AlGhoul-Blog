@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Author {
+  id              Int    @id @default(autoincrement())
+  name            String
+  profileImageURL String
+  bio             String
+
+  posts Post[]
+
+  language   Language @relation(fields: [languageId], references: [id])
+  languageId Int
+
+  @@index([languageId])
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  date      DateTime
+  published Boolean
+
+  author   Author @relation(fields: [authorId], references: [id])
+  authorId Int
+
+  language   Language @relation(fields: [languageId], references: [id])
+  languageId Int
+
+  tags Tag[]
+
+  topic   Topic @relation(fields: [topicId], references: [id])
+  topicId Int
+
+  @@index([authorId])
+  @@index([languageId])
+  @@index([topicId])
+}
+
+model Tag {
+  id   Int    @id @default(autoincrement())
+  name String
+  icon String
+
+  language   Language @relation(fields: [languageId], references: [id])
+  languageId Int
+
+  posts Post[]
+
+  @@index([languageId])
+}
+
+model Language {
+  id   Int    @id @default(autoincrement())
+  code String
+  name String
+
+  posts            Post[]
+  tags             Tag[]
+  topicTranslation Topic_Language_Translation[]
+  authors          Author[]
+}
+
+model Topic {
+  id  Int    @id @default(autoincrement())
+  tag String
+
+  posts            Post[]
+  topicTranslation Topic_Language_Translation[]
+}
+
+model Topic_Language_Translation {
+  topic       Topic    @relation(fields: [topicId], references: [id])
+  topicId     Int
+  language    Language @relation(fields: [languageId], references: [id])
+  languageId  Int
+  translation String
+
+  @@id([topicId, languageId])
+  @@index([topicId])
+  @@index([languageId])
+}

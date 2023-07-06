@@ -118,5 +118,5 @@ export default async function RootLayout({
 
 
 interface PageProps {
-  lang: string
+  lang: "ar" | "en"
 }
