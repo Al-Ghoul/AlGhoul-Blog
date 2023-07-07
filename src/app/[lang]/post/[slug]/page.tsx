@@ -7,10 +7,13 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import rehypeHighlight from 'rehype-highlight';
 import "public/styles/highlight-js/androidstudio.css"
 import Pre from '@/components/general/pre';
-import { GetPostByTitleAndLanguage } from '@/helpers/db';
+import { GetPostByTitleAndLanguage, prisma } from '@/helpers/db';
+import { notFound } from 'next/navigation';
+
 
 const PostPage = async ({ params }: PageProps) => {
     const post = await GetPostByTitleAndLanguage(decodeURI(params.slug), params.lang);
+    if (!post) notFound();
     await loadLocaleAsync(params.lang as Locales);
     const LL = i18nObject(params.lang as Locales);
 

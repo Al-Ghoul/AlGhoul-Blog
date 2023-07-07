@@ -7,8 +7,10 @@ import { DateHoursDiff } from '@/helpers';
 import Image from 'next/image';
 import Link from 'next/link';
 import { GetTopTwoPostsByLanguageAndSortedByDate } from '@/helpers/db';
+import { notFound } from 'next/navigation';
 
 export default async function Home({ params }: PageProps) {
+  if (!['ar', 'en'].includes(params.lang.toLowerCase())) notFound();
   await loadLocaleAsync(params.lang as Locales);
   const LL = i18nObject(params.lang as Locales);
   const posts = await GetTopTwoPostsByLanguageAndSortedByDate(params.lang);

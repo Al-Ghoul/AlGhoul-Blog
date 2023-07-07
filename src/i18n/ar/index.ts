@@ -15,7 +15,14 @@ const ar = {
 	AUTHORS_PAGE: 'الكُتاب',
 	READ_MORE: 'المزيد',
 	HOURS_AGO: 'منذ {hours} {{لاشئ|ساعة|ساعتين|ساعات|ساعة}}.',
-	AUTHOR_POSTS_PAGE: 'مقالات {name}'
+	AUTHOR_POSTS_PAGE: 'مقالات {name}',
+	ERROR_404: 'خطأ 404',
+	ERROR_404_PAGE_NOT_FOUND: 'لم نتمكن من العثور على هذه الصفحة',
+	AUTHOR_NOT_FOUND: 'لم نتمكن من العثور علي هذا الكاتب',
+	AUTHORS_NOT_FOUND: 'لم نتمكن من العثور علي أي كاتب',
+	TAG_NOT_FOUND: 'لم نتمكن من العثور علي هذه البطاقة',
+	TAGS_NOT_FOUND: 'لم نتمكن من العثور علي أي بطاقة',
+	POST_NOT_FOUND: 'لم نتمكن من العثور علي هذا المقال'
 } satisfies BaseTranslation
 
 export default ar

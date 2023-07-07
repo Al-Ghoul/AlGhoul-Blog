@@ -1,4 +1,3 @@
-
 import { type Entity, isAuthor, isTag, isPost } from "@/helpers";
 import Link from "next/link";
 import Image from 'next/image'

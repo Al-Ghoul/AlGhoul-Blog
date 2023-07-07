@@ -5,6 +5,8 @@ import CommonContainer from '@/components/general/CommonContainer';
 import { GetAuthorByName, GetPostsByAuthorAndLanguage } from '@/helpers/db';
 import { Metadata } from 'next'
 import { CapitalizeFirstLetter } from '@/helpers';
+import { notFound } from 'next/navigation';
+
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     await loadLocaleAsync(params.lang as Locales);
@@ -16,13 +18,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
 }
 
-
 export default async function AuthorPage({ params }: PageProps) {
     const author = await GetAuthorByName(decodeURI(params.author));
+    if (!author) notFound();
+    const authorsPosts = await GetPostsByAuthorAndLanguage(author.name, params.lang);
+    if (!authorsPosts.length) notFound();
 
     await loadLocaleAsync(params.lang as Locales);
     const LL = i18nObject(params.lang as Locales);
-    const authorsPosts = await GetPostsByAuthorAndLanguage(author!.name, params.lang);
 
     return (
         <CommonContainer
@@ -38,6 +41,6 @@ export default async function AuthorPage({ params }: PageProps) {
 interface PageProps {
     params: {
         lang: string,
-        author: string
+        author: string,
     }
 }

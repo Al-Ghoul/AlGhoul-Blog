@@ -15,7 +15,14 @@ const en = {
 	AUTHORS_PAGE: 'Authors',
 	READ_MORE: 'Read more',
 	HOURS_AGO: '{hours} {{hour|hours}} ago.',
-	AUTHOR_POSTS_PAGE: '{name}\'s Posts'
+	AUTHOR_POSTS_PAGE: '{name}\'s Posts',
+	ERROR_404: "Error 404",
+	ERROR_404_PAGE_NOT_FOUND: 'We could not find this page',
+	AUTHOR_NOT_FOUND: 'We could not find this author',
+	AUTHORS_NOT_FOUND: 'We could not find any author',
+	TAG_NOT_FOUND: 'We could not find this tag',
+	TAGS_NOT_FOUND: 'We could not find any tag',
+	POST_NOT_FOUND: 'We could not find this post'
 } satisfies Translation
 
 export default en

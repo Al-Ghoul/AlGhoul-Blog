@@ -1,9 +1,8 @@
-import { prisma } from '@/helpers/db';
 import Link from "next/link";
 import { SA, US } from 'country-flag-icons/react/3x2'
 
 
-const LanguageSelector = async ({ languageCode }: Props) => {
+const LanguageSelector = ({ languageCode }: Props) => {
     const isArabic = languageCode == 'ar';
     const languages = { "en": "English (US)", "ar": "العربية (KSA)" };
     const language = languages[languageCode];

@@ -15,6 +15,7 @@ const Header = async ({ lang }: Props) => {
     await loadLocaleAsync(lang as Locales);
     const LL = i18nObject(lang as Locales);
 
+
     if (typeof window !== 'undefined') {
         //do stuff related with dom
         initFlowbite();
@@ -27,7 +28,7 @@ const Header = async ({ lang }: Props) => {
                 <Link href={`/${lang}`} className="flex items-center">
                     <span className='self-center text-xl md:text-3xl whitespace-nowrap text-[#f53c3c] font-aref'>{LL.siteTitle()}</span>
                 </Link>
-                
+
                 <LanguageSelector languageCode={lang} />
 
                 <button data-collapse-toggle="navbar-dropdown" type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-dropdown" aria-expanded="false">

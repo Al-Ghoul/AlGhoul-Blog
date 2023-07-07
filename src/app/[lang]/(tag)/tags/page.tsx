@@ -4,6 +4,7 @@ import type { Locales } from '@/i18n/i18n-types';
 import { Metadata } from 'next'
 import CommonContainer from '@/components/general/CommonContainer';
 import { GetTagsByLanguage } from '@/helpers/db';
+import { notFound } from 'next/navigation';
 
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -15,11 +16,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
 }
 
-
-
 export default async function Tags({ params }: PageProps) {
     const tags = await GetTagsByLanguage(params.lang);
-    
+    if (!tags.length) notFound();
     await loadLocaleAsync(params.lang as Locales);
     const LL = i18nObject(params.lang as Locales);
 
@@ -34,6 +33,6 @@ export default async function Tags({ params }: PageProps) {
 
 interface PageProps {
     params: {
-        lang: string
+        lang: string,
     }
 }
