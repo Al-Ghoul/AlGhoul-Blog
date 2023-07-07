@@ -5,11 +5,14 @@ import Image from 'next/image'
 import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import rehypeHighlight from 'rehype-highlight';
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import "public/styles/highlight-js/androidstudio.css"
 import Pre from '@/components/general/pre';
-import { GetPostByTitleAndLanguage, prisma } from '@/helpers/db';
+import { GetPostByTitleAndLanguage } from '@/helpers/db';
 import { notFound } from 'next/navigation';
-
+import { s } from 'hastscript';
+import remarkToc from 'remark-toc'
 
 const PostPage = async ({ params }: PageProps) => {
     const post = await GetPostByTitleAndLanguage(decodeURI(params.slug), params.lang);
@@ -51,16 +54,35 @@ const PostPage = async ({ params }: PageProps) => {
                     <div className='border-s border-white p-5'>
                         <div className='prose prose-p:text-white'>
                             <MDXRemote
-                                source={post!.content}
+                                source={post.content}
                                 options={{
                                     mdxOptions: {
-                                        remarkPlugins: [],
-                                        rehypePlugins: [rehypeHighlight],
-                                    }
+                                        remarkPlugins: [[remarkToc, { heading: 'toc' }]],
+                                        rehypePlugins: [rehypeHighlight, rehypeSlug, [rehypeAutolinkHeadings, {
+                                            content(node: any) {
+                                                return [
+                                                    s('svg', {
+                                                        xmlns: 'http://www.w3.org/2000/svg',
+                                                        fill: 'none',
+                                                        viewbox: '0 0 24 24',
+                                                        strokeWidth: '1.5',
+                                                        stroke: 'currentColor',
+                                                        className: "w-6 h-6 inline mr-1",
+                                                    }, [
+                                                        s('path', {
+                                                            strokeLinecap: 'round',
+                                                            strokeLinejoin: 'round',
+                                                            d: 'M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244'
+                                                        })
+                                                    ])
+                                                ]
+                                            }
+                                        }]],
+                                    },
                                 }}
                                 components={
                                     {
-                                        pre: Pre
+                                        pre: Pre,
                                     }
                                 }
                             />
