@@ -13,7 +13,7 @@ datasource db {
 
 model Author {
   id              Int    @id @default(autoincrement())
-  name            String
+  name            String @unique
   profileImageURL String
   bio             String
 
@@ -29,7 +29,7 @@ model Post {
   id        Int      @id @default(autoincrement())
   title     String
   content   String
-  date      DateTime
+  date      DateTime @default(now())
   published Boolean
 
   author   Author @relation(fields: [authorId], references: [id])
@@ -43,6 +43,7 @@ model Post {
   topic   Topic @relation(fields: [topicId], references: [id])
   topicId Int
 
+  @@unique([title, languageId])
   @@index([authorId])
   @@index([languageId])
   @@index([topicId])
@@ -58,6 +59,7 @@ model Tag {
 
   posts Post[]
 
+  @@unique([name, languageId])
   @@index([languageId])
 }
 
@@ -70,11 +72,13 @@ model Language {
   tags             Tag[]
   topicTranslation Topic_Language_Translation[]
   authors          Author[]
+
+  @@unique([code, name])
 }
 
 model Topic {
   id  Int    @id @default(autoincrement())
-  tag String
+  tag String @unique
 
   posts            Post[]
   topicTranslation Topic_Language_Translation[]
