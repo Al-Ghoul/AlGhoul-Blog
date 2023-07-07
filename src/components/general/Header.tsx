@@ -60,6 +60,14 @@ const Header = async ({ lang }: Props) => {
                         </li>
 
                         <li>
+                            <Link href={`/${lang}/topics`} className={`block py-2 pl-3 pr-4 
+                            ${currentActiveRoute == 'topics' ? 'text-blue-500' : 'text-white'}
+                            ${isArabic ? 'font-medium text-lg' : ''}
+                            rounded md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0`}>{LL.TOPICS_PAGE()}
+                            </Link>
+                        </li>
+
+                        <li>
                             <Link href={`/${lang}/about`} className={`block py-2 pl-3 pr-4 
                             ${currentActiveRoute == 'about' ? 'text-blue-500' : 'text-white'}
                             ${isArabic ? 'font-medium text-lg' : ''}

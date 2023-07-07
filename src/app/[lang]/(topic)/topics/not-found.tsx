@@ -26,7 +26,7 @@ export default async function NotFound() {
 
                 <hr />
                 <div className='flex flex-col my-auto gap-2'>
-                    <p className='font-semibold text-6xl text-center'>{LL.AUTHOR_NOT_OR_POSTS_FOUND()}</p>
+                    <p className='font-semibold text-6xl text-center'>{LL.TOPICS_NOT_FOUND()}</p>
 
                     <Link className={`font-semibold text-4xl text-center ${underline}`} href={`/${languageCode}`}>{LL.HOME_PAGE()}</Link>
                 </div>

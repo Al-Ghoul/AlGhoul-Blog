@@ -1,4 +1,4 @@
-import { type Entity, isAuthor, isTag, isPost } from "@/helpers";
+import { type Entity, isAuthor, isTag, isPost, isTopic } from "@/helpers";
 import Link from "next/link";
 import Image from 'next/image'
 import { prisma, type Authors } from "@/helpers/db";
@@ -65,6 +65,18 @@ const CommonContainer = ({ lang, header, contentList, author }: Props) => {
                                 <li className='my-2 mr-5' key={item.id}>
                                     <Link href={`/${lang}/post/${item.title}`}>
                                         {item.title}
+                                    </Link>
+                                </li>
+                            );
+                        })
+                    }
+
+                    {
+                        isTopic(contentList) && contentList.map(async item => {
+                            return (
+                                <li className='my-2 mr-5' key={item.languageId}>
+                                    <Link href={`/${lang}/topic/${item.topicId}`}>
+                                        {item.translation}
                                     </Link>
                                 </li>
                             );

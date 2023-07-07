@@ -63,6 +63,25 @@ export async function GetPostByTitleAndLanguage(postTitle: string, languageCode:
     });
 }
 
+export async function GetTopicsByLanguage(languageCode: string) {
+    return await prisma.topic_Language_Translation.findMany({
+        where: { language: { code: languageCode } }
+    });
+}
+
+export async function GetPostsByTopicIdAndLanguage(topicId: number, languageCode: string) {
+    return await prisma.post.findMany({
+        where: { topicId: topicId, language: { code: languageCode } }
+    })
+}
+
+export async function GetTopicByIdAndLanguage(topicId: number, languageCode: string) {
+    return await prisma.topic_Language_Translation.findFirst({
+        where: { topicId: topicId, language: { code: languageCode } }
+    });
+}
+
 export type Posts = Prisma.PromiseReturnType<typeof GetPostsByTagAndLanguage>
 export type Authors = Prisma.PromiseReturnType<typeof GetAuthorsByLanguage>
 export type Tags = Prisma.PromiseReturnType<typeof GetTagsByLanguage>
+export type Topics = Prisma.PromiseReturnType<typeof GetTopicsByLanguage>

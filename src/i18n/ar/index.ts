@@ -13,16 +13,19 @@ const ar = {
 	ABOUT_US: 'عنا',
 	TAGS_PAGE: 'البطاقات',
 	AUTHORS_PAGE: 'الكُتاب',
+	TOPICS_PAGE: 'المواضيع',
 	READ_MORE: 'المزيد',
 	HOURS_AGO: 'منذ {hours} {{لاشئ|ساعة|ساعتين|ساعات|ساعة}}.',
 	AUTHOR_POSTS_PAGE: 'مقالات {name}',
 	ERROR_404: 'خطأ 404',
 	ERROR_404_PAGE_NOT_FOUND: 'لم نتمكن من العثور على هذه الصفحة',
-	AUTHOR_NOT_FOUND: 'لم نتمكن من العثور علي هذا الكاتب',
+	AUTHOR_NOT_OR_POSTS_FOUND: 'لم نتمكن من العثور علي هذا الكاتب أو ليس لديه أي مقالات',
 	AUTHORS_NOT_FOUND: 'لم نتمكن من العثور علي أي كاتب',
-	TAG_NOT_FOUND: 'لم نتمكن من العثور علي هذه البطاقة',
+	TAG_NO_POSTS_FOUND: 'لم نتمكن من العثور أي مقال متعلق بهذه البطاقة',
 	TAGS_NOT_FOUND: 'لم نتمكن من العثور علي أي بطاقة',
-	POST_NOT_FOUND: 'لم نتمكن من العثور علي هذا المقال'
+	POST_NOT_FOUND: 'لم نتمكن من العثور علي هذا المقال',
+	TOPIC_OR_POSTS_NOT_FOUND: 'لم نتمكن من العثور علي هذا الموضوع أو لا يوجد أي مقالات متعلقة',
+	TOPICS_NOT_FOUND: 'لم نتمكن من العثور علي أي موضوع',
 } satisfies BaseTranslation
 
 export default ar

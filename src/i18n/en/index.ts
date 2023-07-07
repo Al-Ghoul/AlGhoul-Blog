@@ -13,16 +13,19 @@ const en = {
 	ABOUT_US: 'About us',
 	TAGS_PAGE: 'Tags',
 	AUTHORS_PAGE: 'Authors',
+	TOPICS_PAGE: 'Topics',
 	READ_MORE: 'Read more',
 	HOURS_AGO: '{hours} {{hour|hours}} ago.',
 	AUTHOR_POSTS_PAGE: '{name}\'s Posts',
 	ERROR_404: "Error 404",
 	ERROR_404_PAGE_NOT_FOUND: 'We could not find this page',
-	AUTHOR_NOT_FOUND: 'We could not find this author',
+	AUTHOR_NOT_OR_POSTS_FOUND: 'We could not find this author or he does not have any posts',
 	AUTHORS_NOT_FOUND: 'We could not find any author',
-	TAG_NOT_FOUND: 'We could not find this tag',
+	TAG_NO_POSTS_FOUND: 'We could not find any posts associated with this tag',
 	TAGS_NOT_FOUND: 'We could not find any tag',
-	POST_NOT_FOUND: 'We could not find this post'
+	POST_NOT_FOUND: 'We could not find this post',
+	TOPIC_OR_POSTS_NOT_FOUND: 'We could not find this topic or it doesn\'t have any associated posts',
+	TOPICS_NOT_FOUND: 'We could not find any topic'
 } satisfies Translation
 
 export default en

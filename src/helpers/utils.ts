@@ -1,6 +1,6 @@
 
 
-import type { Authors, Posts, Tags } from "./db";
+import type { Authors, Posts, Tags, Topics } from "./db";
 
 export const DateHoursDiff = (date: string): number => {
     const firstDate = new Date(date);
@@ -25,4 +25,8 @@ export function isTag(tag: Entity): tag is Tags {
     return (tag[0] as Tags[0]).icon !== undefined;
 }
 
-export type Entity = Authors | Tags | Posts;
+export function isTopic(topic: Entity): topic is Topics {
+    return (topic[0] as Topics[0]).translation !== undefined;
+}
+
+export type Entity = Authors | Tags | Posts | Topics;
