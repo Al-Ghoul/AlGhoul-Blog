@@ -45,35 +45,19 @@ const Header = async ({ lang }: Props) => {
                             </Link>
                         </li>
 
-                        <li>
-                            <Link href={`/${lang}/tags`} className={`block py-2 pl-3 pr-4 
-                            ${currentActiveRoute == 'tags' ? 'text-blue-500' : 'text-white'}
-                            ${isArabic ? 'font-medium text-lg ' : ''}rounded md:bg-transparent md:p-0 md:hover:text-blue-700`} aria-current="page">{LL.TAGS_PAGE()}
-                            </Link>
-                        </li>
-
-                        <li>
-                            <Link href={`/${lang}/authors`} className={`block py-2 pl-3 pr-4 
-                            ${currentActiveRoute == 'authors' ? 'text-blue-500' : 'text-white'}
-                            ${isArabic ? 'font-medium text-lg ' : ''}rounded md:bg-transparent md:p-0 md:hover:text-blue-700`} aria-current="page">{LL.AUTHORS_PAGE()}
-                            </Link>
-                        </li>
-
-                        <li>
-                            <Link href={`/${lang}/topics`} className={`block py-2 pl-3 pr-4 
-                            ${currentActiveRoute == 'topics' ? 'text-blue-500' : 'text-white'}
-                            ${isArabic ? 'font-medium text-lg' : ''}
-                            rounded md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0`}>{LL.TOPICS_PAGE()}
-                            </Link>
-                        </li>
-
-                        <li>
-                            <Link href={`/${lang}/about`} className={`block py-2 pl-3 pr-4 
-                            ${currentActiveRoute == 'about' ? 'text-blue-500' : 'text-white'}
-                            ${isArabic ? 'font-medium text-lg' : ''}
-                            rounded md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0`}>{LL.ABOUT_US()}
-                            </Link>
-                        </li>
+                        {[
+                            ['tags', LL.TAGS_PAGE()],
+                            ['authors', LL.AUTHORS_PAGE()],
+                            ['topics', LL.TOPICS_PAGE()],
+                            ['about', LL.ABOUT_US()]
+                        ].map(([pathName, urlName]) => (
+                            <li key={pathName}>
+                                <Link href={`/${pathName}`} className={`block py-2 pl-3 pr-4 
+                                  ${currentActiveRoute == pathName ? 'text-blue-500' : 'text-white'}
+                                  ${isArabic ? 'font-medium text-lg ' : ''}rounded md:bg-transparent md:p-0 md:hover:text-blue-700`} aria-current="page">{urlName}
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
                 </div>
 
