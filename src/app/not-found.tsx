@@ -7,9 +7,9 @@ import type { Locales } from '@/i18n/i18n-types';
 
 export default async function NotFound() {
     const headersList = headers()
-    const languageCode = headersList.get('x-invoke-path')!.split('/')[1];
-    await loadLocaleAsync(languageCode as Locales);
-    const LL = i18nObject(languageCode as Locales);
+    const languageCode = headersList.get('x-invoke-path')!.split('/')[1] as Locales;
+    await loadLocaleAsync(languageCode || 'ar' );
+    const LL = i18nObject(languageCode || 'ar');
     const underline = languageCode == 'ar' || 'underline';
 
     return (
