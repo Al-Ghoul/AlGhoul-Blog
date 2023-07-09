@@ -1,19 +1,18 @@
 
 'use client';
-import { loadLocaleAsync } from '@/i18n/i18n-util.async';
-import { i18nObject } from '@/i18n/i18n-util';
-import type { Locales } from '@/i18n/i18n-types';
 import { initFlowbite } from 'flowbite';
 import { usePathname } from 'next/navigation'
 import Link from 'next/link';
 import LanguageSelector from './LanguageSelector';
+import { loadAllLocales } from '@/i18n/i18n-util.sync';
+import { i18n } from '@/i18n/i18n-util';
 
-const Header = async ({ lang }: Props) => {
+const Header = ({ lang }: Props) => {
     const paths = usePathname().split('/');
     const currentActiveRoute = paths[paths.length - 1];
     const isArabic = lang == 'ar';
-    await loadLocaleAsync(lang as Locales);
-    const LL = i18nObject(lang as Locales);
+    loadAllLocales();
+    const LL = i18n()[lang];
 
 
     if (typeof window !== 'undefined') {
@@ -31,7 +30,7 @@ const Header = async ({ lang }: Props) => {
 
                 <LanguageSelector languageCode={lang} />
 
-                <button data-collapse-toggle="navbar-dropdown" type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-dropdown" aria-expanded="false">
+                <button data-collapse-toggle="navbar-dropdown" type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-dropdown" aria-expanded="false">
                     <span className="sr-only">Open main menu</span>
                     <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path></svg>
                 </button>

@@ -2,6 +2,9 @@ import '@/app/globals.css';
 import { type Metadata } from 'next/types';
 import { loadLocaleAsync } from '@/i18n/i18n-util.async';
 import { i18nObject } from '@/i18n/i18n-util';
+import { CairoFont, Aref_Ruqaa, inter } from '@/helpers/fonts';
+import Header from '@/components/general/Header';
+import Link from 'next/link';
 
 export async function generateMetadata({ params }: { params: PageProps }): Promise<Metadata> {
 
@@ -13,17 +16,18 @@ export async function generateMetadata({ params }: { params: PageProps }): Promi
   }
 }
 
-export default async function MainLayout({
+export default async function DashboardLayout({
   children, params
 }: {
   children: React.ReactNode,
   params: PageProps
 }) {
+  await loadLocaleAsync(params.lang);
+  const LL = i18nObject(params.lang);
+
   return (
     <section>
-
       {children}
-
     </section>
   )
 }

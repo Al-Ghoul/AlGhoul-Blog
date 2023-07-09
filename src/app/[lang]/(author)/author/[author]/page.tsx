@@ -30,7 +30,7 @@ export default async function AuthorPage({ params }: PageProps) {
     return (
         <CommonContainer
             lang={params.lang}
-            header={LL.AUTHOR_POSTS_PAGE({ name: params.author })}
+            header={LL.AUTHOR_POSTS_PAGE({ name: author.name })}
             contentList={authorsPosts}
             author={author}
         />

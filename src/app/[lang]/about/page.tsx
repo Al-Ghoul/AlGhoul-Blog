@@ -2,6 +2,7 @@ import { loadLocaleAsync } from '@/i18n/i18n-util.async';
 import { i18nObject } from '@/i18n/i18n-util';
 import type { Locales } from '@/i18n/i18n-types';
 import { Metadata } from 'next'
+import Header from '@/components/general/Header';
 
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -13,15 +14,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
 }
 
-export default function About() {
+export default function About({ params }: PageProps) {
     return (
-        <main className="flex min-h-screen flex-col items-center ">
-            <h1>To do</h1>
-        </main>
+        <>
+            <Header lang={params.lang} />
+
+            <main className="flex min-h-screen flex-col items-center ">
+                <h1>To do</h1>
+            </main>
+        </>
     );
 }
 interface PageProps {
     params: {
-        lang: string
+        lang: 'ar' | 'en'
     }
 }
