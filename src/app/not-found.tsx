@@ -7,9 +7,10 @@ import type { Locales } from '@/i18n/i18n-types';
 
 export default async function NotFound() {
     const headersList = headers()
-    const languageCode = headersList.get('x-invoke-path')!.split('/')[1] as Locales;
-    await loadLocaleAsync(languageCode || 'ar');
-    const LL = i18nObject(languageCode || 'ar');
+    let languageCode = headersList.get('x-invoke-path')!.split('/')[1] as Locales;
+    if (!['ar', 'en'].includes(languageCode.toLowerCase())) languageCode = 'ar';
+    await loadLocaleAsync(languageCode);
+    const LL = i18nObject(languageCode);
 
     return (
         <main className="flex min-h-screen p-1 md:p-24 md:px-48">
@@ -28,6 +29,6 @@ export default async function NotFound() {
                 <p className='font-semibold text-6xl text-center mt-auto'>{LL.ERROR_404_PAGE_NOT_FOUND()}</p>
                 <Link className='font-semibold text-4xl text-center underline mb-auto' href={`/${languageCode}`}>{LL.HOME_PAGE()}</Link>
             </article>
-        </main >
+        </main>
     )
 }

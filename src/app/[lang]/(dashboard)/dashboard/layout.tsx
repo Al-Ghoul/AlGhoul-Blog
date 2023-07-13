@@ -2,9 +2,7 @@ import '@/app/globals.css';
 import { type Metadata } from 'next/types';
 import { loadLocaleAsync } from '@/i18n/i18n-util.async';
 import { i18nObject } from '@/i18n/i18n-util';
-import { CairoFont, Aref_Ruqaa, inter } from '@/helpers/fonts';
-import Header from '@/components/general/Header';
-import Link from 'next/link';
+import DashboardHeader from '@/components/general/DashboardHeader';
 
 export async function generateMetadata({ params }: { params: PageProps }): Promise<Metadata> {
 
@@ -26,9 +24,12 @@ export default async function DashboardLayout({
   const LL = i18nObject(params.lang);
 
   return (
-    <section>
-      {children}
-    </section>
+    <>
+      <DashboardHeader lang={params.lang} />
+      <section>
+        {children}
+      </section>
+    </>
   )
 }
 

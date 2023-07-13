@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { loadLocaleAsync } from '@/i18n/i18n-util.async';
 import { i18nObject } from '@/i18n/i18n-util';
 import type { Locales } from '@/i18n/i18n-types';
+import { NextAuthProvider } from '@/components/general/Provider';
 
 export default async function RootLayout({
   children,
@@ -12,18 +13,21 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const headersList = headers()
-  const languageCode = headersList.get('x-invoke-path')!.split('/')[1] as Locales;
-  await loadLocaleAsync(languageCode || 'ar');
-  const LL = i18nObject(languageCode || 'ar');
+  let languageCode = headersList.get('x-invoke-path')!.split('/')[1] as Locales;
+  if (!['ar', 'en'].includes(languageCode.toLowerCase())) languageCode = 'ar';
+  await loadLocaleAsync(languageCode);
+  const LL = i18nObject(languageCode);
 
   return (
     <html lang={languageCode} className={`bg-[url('/../images/background.png')] bg-cover bg-no-repeat 
-    ${inter.className} ${CairoFont.variable} ${Aref_Ruqaa.variable} bg-center md:bg-unset bg-fixed
-    scrollbar-thin scrollbar-thumb-[#326C85] scrollbar-track-[#4A3470] scrollbar-thumb-rounded-lg
-    `}>
+      ${inter.className} ${CairoFont.variable} ${Aref_Ruqaa.variable} bg-center md:bg-unset bg-fixed
+      scrollbar-thin scrollbar-thumb-[#326C85] scrollbar-track-[#4A3470] scrollbar-thumb-rounded-lg`}>
 
       <body>
-        {children}
+
+        <NextAuthProvider>
+          {children}
+        </NextAuthProvider>
 
         <footer className='flex flex-col gap-3 bg-gradient-to-bl from-[#4A3470] to-[#326C85]/75 backdrop-blur-3xl pt-3 rounded-t-xl text-white'>
           <ul className='flex flex-auto justify-around md:justify-between mx-auto gap-16'>
@@ -102,5 +106,5 @@ export default async function RootLayout({
       </body>
 
     </html>
-  )
+  );
 }
