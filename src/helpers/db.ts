@@ -137,6 +137,11 @@ export async function GetTopicTranslationByIdAndLanguage(topicId: number, langua
 
     return { topicTranslation, topics };
 }
+
+export async function SearchPosts(searchQuery: string) {
+    return await prisma.post.findMany({ where: { content: { search: searchQuery } } });
+}
+
 export type Languages = Prisma.PromiseReturnType<typeof GetLanguages>
 export type Posts = Prisma.PromiseReturnType<typeof GetPostsByTagAndLanguage>
 export type Authors = Prisma.PromiseReturnType<typeof GetAuthorsByLanguage>
@@ -155,4 +160,6 @@ export type AuthorDataType = Prisma.PromiseReturnType<typeof GetAuthorById>
 export type TagDataType = Prisma.PromiseReturnType<typeof GetTagById>
 export type TopicTranslationType = Prisma.PromiseReturnType<typeof GetTopicTranslationByIdAndLanguage>
 export type TagsType = Prisma.PromiseReturnType<typeof GetTags>
+
+export type SearchPostsType = Prisma.PromiseReturnType<typeof SearchPosts>
 

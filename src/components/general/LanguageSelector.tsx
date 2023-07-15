@@ -11,7 +11,8 @@ const LanguageSelector = ({ languageCode }: Props) => {
         <div className="flex items-center md:order-2">
             <button
                 type="button" data-dropdown-toggle="language-dropdown-menu"
-                className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-white rounded-lg cursor-pointer">
+                className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-white rounded-lg cursor-pointer"
+            >
                 {
                     isArabic
                         ?
@@ -19,9 +20,7 @@ const LanguageSelector = ({ languageCode }: Props) => {
                         :
                         <US title="United States" className='h-4 w-4 mr-1' />
                 }
-
                 {language}
-
             </button>
             <div className="z-50 hidden my-4 text-base list-none divide-y divide-gray-100 rounded-lg shadow bg-gradient-to-bl from-[#4A3470] to-[#326C85]" id="language-dropdown-menu">
                 <ul className="py-2 font-medium" role="none">

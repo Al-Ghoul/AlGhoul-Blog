@@ -49,7 +49,7 @@ const RevalidateTag = () => {
                     .catch(() => {
                         setIsSuccess(false);
                         setIsError(true);
-                    }))}>Revalidate Authors' Posts</button>
+                    }))}>Revalidate Authors Posts</button>
                 <button className="bg-blue-500 rounded-full p-2 disabled:bg-black text-white" disabled={isPending} onClick={() => startTransition(() => revalidateTagAction("tagsPosts").then(() => {
                     setIsError(false);
                     setValidatedTag("Tags Posts")
@@ -58,7 +58,7 @@ const RevalidateTag = () => {
                     .catch(() => {
                         setIsSuccess(false);
                         setIsError(true);
-                    }))}>Revalidate Tags' Posts</button>
+                    }))}>Revalidate Tags Posts</button>
                 <button className="bg-blue-500 rounded-full p-2 disabled:bg-black text-white" disabled={isPending} onClick={() => startTransition(() => revalidateTagAction("topicsPosts").then(() => {
                     setIsError(false);
                     setValidatedTag("Topics Posts")
@@ -67,7 +67,7 @@ const RevalidateTag = () => {
                     .catch(() => {
                         setIsSuccess(false);
                         setIsError(true);
-                    }))}>Revalidate Topics' Posts</button>
+                    }))}>Revalidate Topics Posts</button>
 
                 <button className="bg-blue-500 rounded-full p-2 disabled:bg-black text-white" disabled={isPending} onClick={() => startTransition(() => revalidateTagAction("authors").then(() => {
                     setIsError(false);

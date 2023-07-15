@@ -69,7 +69,7 @@ export default async function Home({ params }: PageProps) {
                         {post.title}
                       </Link>
                     </h2>
-                    <p className="mb-5 font-light text-gray-200">{post.content.length > 1 ? `${post.content.substring(1, 500)}...` : 'No content?'}</p>
+                    <p className="mb-5 font-light text-gray-200">{post.content.length > 1 ? `${post.content.substring(0, 500)}...` : 'No content?'}</p>
 
                     <div className="flex justify-between items-center mt-auto">
 
