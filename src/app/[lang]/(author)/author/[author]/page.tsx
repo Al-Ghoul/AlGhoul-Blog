@@ -2,11 +2,20 @@ import { loadLocaleAsync } from '@/i18n/i18n-util.async';
 import { i18nObject } from '@/i18n/i18n-util';
 import type { Locales } from '@/i18n/i18n-types';
 import CommonContainer from '@/components/general/CommonContainer';
-import { GetAuthorByName, GetPostsByAuthorAndLanguage } from '@/helpers/db';
 import { Metadata } from 'next'
-import { CapitalizeFirstLetter } from '@/helpers';
+import { CapitalizeFirstLetter, getBaseUrl } from '@/helpers';
 import { notFound } from 'next/navigation';
+import type { Authors, AuthorsPostsType } from '@/helpers/db';
 
+async function GetAuthorWithPosts(authorName: string, languageCode: string) {
+    const res = await fetch(`${getBaseUrl()}/api/author/${languageCode}/${authorName}`, { next: { tags: ["authorPosts"] } })
+
+    if (!res.ok) {
+        throw new Error('Failed to fetch data')
+    }
+
+    return res.json() as Promise<{ authorsPosts: AuthorsPostsType, author: Authors[0] }>;
+}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     await loadLocaleAsync(params.lang as Locales);
@@ -19,10 +28,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function AuthorPage({ params }: PageProps) {
-    const author = await GetAuthorByName(decodeURI(params.author));
-    if (!author) notFound();
-    const authorsPosts = await GetPostsByAuthorAndLanguage(author.name, params.lang);
-    if (!authorsPosts.length) notFound();
+    const data = await GetAuthorWithPosts(decodeURI(params.author), params.lang).catch(() => notFound());
+    if (!data || !data.authorsPosts.length) notFound();
 
     await loadLocaleAsync(params.lang as Locales);
     const LL = i18nObject(params.lang as Locales);
@@ -30,9 +37,9 @@ export default async function AuthorPage({ params }: PageProps) {
     return (
         <CommonContainer
             lang={params.lang}
-            header={LL.AUTHOR_POSTS_PAGE({ name: author.name })}
-            contentList={authorsPosts}
-            author={author}
+            header={LL.AUTHOR_POSTS_PAGE({ name: data.author.name })}
+            contentList={data.authorsPosts}
+            author={data.author}
         />
     );
 }

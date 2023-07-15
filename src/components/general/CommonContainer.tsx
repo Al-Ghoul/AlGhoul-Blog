@@ -2,9 +2,12 @@ import { type Entity, isAuthor, isTag, isPost, isTopic } from "@/helpers";
 import Link from "next/link";
 import Image from 'next/image'
 import { prisma, type Authors } from "@/helpers/db";
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
+const CommonContainer = async ({ lang, header, contentList, author }: Props) => {
+    const session = await getServerSession(authOptions);
 
-const CommonContainer = ({ lang, header, contentList, author }: Props) => {
     return (
         <main className="flex min-h-screen p-1 md:p-24  md:px-48">
             <div
@@ -25,12 +28,13 @@ const CommonContainer = ({ lang, header, contentList, author }: Props) => {
                                 src={author!.profileImageURL}
                                 alt={`${author!.name}'s profile picture`}
                             />
-                        </div>}
+                        </div>
+                    }
                 </div>
 
                 <hr />
 
-                <ul className='flex flex-wrap max-w-lg text-white text-2xl'>
+                <ul className='flex flex-wrap max-w-screen-2xl text-white text-2xl'>
                     {
                         isAuthor(contentList) && contentList.map(async item => {
                             const authorsPostsCount = await prisma.post.count({ where: { authorId: item.id } });
@@ -40,6 +44,11 @@ const CommonContainer = ({ lang, header, contentList, author }: Props) => {
                                     <Link href={`/${lang}/author/${item.name}`}>
                                         {item.name} : ({authorsPostsCount})
                                     </Link>
+                                    {
+                                        session?.user.is_admin &&
+                                        <Link className='bg-green-400 text-center rounded-md self-center hover:bg-blue-500' href={`/dashboard/author/edit/${item.id}`}>Edit Author
+                                        </Link>
+                                    }
                                 </li>
                             );
                         })
@@ -54,6 +63,12 @@ const CommonContainer = ({ lang, header, contentList, author }: Props) => {
                                     <Link href={`/${lang}/tag/${item.name}`}>
                                         {item.name} :({tagsPostsCount?._count.posts})
                                     </Link>
+                                    {
+                                        session?.user.is_admin &&
+                                        <Link className='bg-green-400 text-center rounded-md self-center hover:bg-blue-500' href={`/dashboard/tag/edit/${item.id}`}>
+                                            Edit Tag
+                                        </Link>
+                                    }
                                 </li>
                             );
                         })
@@ -66,6 +81,11 @@ const CommonContainer = ({ lang, header, contentList, author }: Props) => {
                                     <Link href={`/${lang}/post/${item.title}`}>
                                         {item.title}
                                     </Link>
+                                    {
+                                        session?.user.is_admin &&
+                                        <Link className='bg-green-400 text-center rounded-md self-center hover:bg-blue-500' href={`/dashboard/post/edit/${item.id}`}>Edit Post
+                                        </Link>
+                                    }
                                 </li>
                             );
                         })
@@ -78,6 +98,11 @@ const CommonContainer = ({ lang, header, contentList, author }: Props) => {
                                     <Link href={`/${lang}/topic/${item.topicId}`}>
                                         {item.translation}
                                     </Link>
+                                    {
+                                        session?.user.is_admin &&
+                                        <Link className='bg-green-400 text-center rounded-md self-center hover:bg-blue-500' href={`/dashboard/topictranslation/edit/${item.topicId}/${item.languageId}`}>Edit Topic Translation
+                                        </Link>
+                                    }
                                 </li>
                             );
                         })

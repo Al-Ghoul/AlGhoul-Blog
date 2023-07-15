@@ -2,26 +2,32 @@ import { loadLocaleAsync } from '@/i18n/i18n-util.async';
 import { i18nObject } from '@/i18n/i18n-util';
 import type { Locales } from '@/i18n/i18n-types';
 import { Metadata } from 'next'
-import { CapitalizeFirstLetter } from '@/helpers';
+import { CapitalizeFirstLetter, getBaseUrl } from '@/helpers';
 import CommonContainer from '@/components/general/CommonContainer';
-import { GetPostsByTopicIdAndLanguage, GetTopicByIdAndLanguage } from '@/helpers/db';
 import { notFound } from 'next/navigation';
+import type { Posts, Topics } from '@/helpers/db';
+
+async function GetTopicWithPosts(topicId: number, languageCode: string) {
+    const res = await fetch(`${getBaseUrl()}/api/topic/${languageCode}/${topicId}`, { next: { tags: ["topicsPosts"] } });
+
+    if (!res.ok) throw new Error("Failed to fetch data");
+
+    return res.json() as Promise<{ posts: Posts, topic: Topics[0] }>;
+}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     await loadLocaleAsync(params.lang as Locales);
     const LL = i18nObject(params.lang as Locales);
-    const topic = await GetTopicByIdAndLanguage(params.topicId, params.lang);
-
+    const { topic } = await GetTopicWithPosts(parseInt(params.topic), params.lang).catch(() => notFound());
+    
     return {
-        title: `${LL.siteTitle()} - ${CapitalizeFirstLetter(topic!.translation)}`,
+        title: `${LL.siteTitle()} - ${CapitalizeFirstLetter(topic.translation)}`,
     }
 }
 
 export default async function TopicPage({ params }: PageProps) {
-    const topic = await GetTopicByIdAndLanguage(params.topicId, params.lang);
-    if (!topic) notFound();
-    const posts = await GetPostsByTopicIdAndLanguage(params.topicId, params.lang);
-    if (!posts.length) notFound();
+    const { topic, posts } = await GetTopicWithPosts(parseInt(params.topic), params.lang).catch(() => notFound());
+    if (!topic || !posts.length) notFound();
     await loadLocaleAsync(params.lang as Locales);
     const LL = i18nObject(params.lang as Locales);
 
@@ -39,6 +45,6 @@ export default async function TopicPage({ params }: PageProps) {
 interface PageProps {
     params: {
         lang: string,
-        topicId: number,
+        topic: string,
     }
 }

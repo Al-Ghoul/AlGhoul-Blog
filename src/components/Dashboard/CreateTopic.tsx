@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 
 import { FailureAlert, SuccessAlert } from "../general/Alerts";
 import { createTopic } from "@/helpers/actions";
@@ -9,6 +9,12 @@ const CreateTopic = () => {
     let [isPending, startTransition] = useTransition();
     const [isError, setIsError] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    
+    useEffect(() => {
+        const timer = setTimeout(() => setIsSuccess(false), 10 * 1000);
+
+        return () => clearTimeout(timer);
+    }, [isSuccess]);
 
     return (
         <>

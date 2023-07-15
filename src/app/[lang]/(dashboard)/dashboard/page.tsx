@@ -5,7 +5,8 @@ import CreateTag from "@/components/Dashboard/CreateTag";
 import CreateTopic from "@/components/Dashboard/CreateTopic";
 import CreateTopicTranslation from "@/components/Dashboard/CreateTopicTranslation";
 import DashboardTabs from "@/components/Dashboard/DashboardTabs";
-import { GetAuthorsWithLanguages, GetLanguages, GetMainTopics, prisma } from "@/helpers/db";
+import RevalidateTag from "@/components/Dashboard/RevalidateTag";
+import { GetAuthorsWithLanguages, GetLanguages, GetMainTopics, GetTags, prisma } from "@/helpers/db";
 import { getServerSession } from "next-auth/next"
 
 
@@ -14,6 +15,8 @@ const DashboardPage = async () => {
     const languagesData = await GetLanguages();
     const topicsData = await GetMainTopics();
     const authorsData = await GetAuthorsWithLanguages();
+    const tagsData = await GetTags();
+
 
     return (
         <main className="flex min-h-screen p-1 md:p-24 md:px-48">
@@ -23,7 +26,8 @@ const DashboardPage = async () => {
                     createTagComponent={<CreateTag languages={languagesData} />}
                     createTopicComponent={<CreateTopic />}
                     createTopicTranslationComponent={<CreateTopicTranslation languages={languagesData} topics={topicsData} />}
-                    createPostComponent={<CreatePost languages={languagesData} topics={topicsData} authors={authorsData} />}
+                    createPostComponent={<CreatePost languages={languagesData} topics={topicsData} authors={authorsData} tags={tagsData} />}
+                    revalidateTagsComponent={<RevalidateTag />}
                 />
             </div>
         </main>

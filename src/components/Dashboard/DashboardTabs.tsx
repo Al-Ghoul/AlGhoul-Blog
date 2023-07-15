@@ -5,11 +5,15 @@ import { IoMdPricetags } from 'react-icons/io';
 import { MdOutlineTopic, MdOutlinePostAdd } from 'react-icons/md';
 import { HiTranslate } from 'react-icons/hi';
 import type { CustomFlowbiteTheme } from 'flowbite-react';
+import { useSearchParams } from 'next/navigation'
 
 export default function DashboardTabs({
     createAuthorComponent, createTagComponent,
     createTopicComponent, createTopicTranslationComponent,
-    createPostComponent }: Props) {
+    createPostComponent,
+    revalidateTagsComponent }: Props) {
+    const searchParams = useSearchParams();
+    const activeTab = searchParams.get('tab')?.toLowerCase();
 
     return (
         <Flowbite theme={{ theme: tabsCustomTheme }}>
@@ -18,35 +22,46 @@ export default function DashboardTabs({
                 style="default"
             >
                 <Tabs.Item
-                    active
+                    active={activeTab === ''}
                     icon={TbUserPlus}
                     title="Authors Management"
                 >
                     {createAuthorComponent}
                 </Tabs.Item>
                 <Tabs.Item
+                    active={activeTab === 'tag'}
                     icon={IoMdPricetags}
                     title="Tags Management"
                 >
                     {createTagComponent}
                 </Tabs.Item>
                 <Tabs.Item
+                    active={activeTab === 'topic'}
                     icon={MdOutlineTopic}
                     title="Topics Management"
                 >
                     {createTopicComponent}
                 </Tabs.Item>
                 <Tabs.Item
+                    active={activeTab === 'topictranslation'}
                     icon={HiTranslate}
                     title="Topics Translation Management"
                 >
                     {createTopicTranslationComponent}
                 </Tabs.Item>
                 <Tabs.Item
+                    active={activeTab === 'createpost'}
                     icon={MdOutlinePostAdd}
                     title="Posts Management"
                 >
                     {createPostComponent}
+                </Tabs.Item>
+                <Tabs.Item
+                    active={activeTab === 'revalidate'}
+                    icon={MdOutlinePostAdd}
+                    title="Revalidation Management"
+                >
+                    {revalidateTagsComponent}
                 </Tabs.Item>
             </Tabs.Group>
         </Flowbite>
@@ -60,6 +75,7 @@ interface Props {
     createTopicComponent: React.ReactNode,
     createTopicTranslationComponent: React.ReactNode,
     createPostComponent: React.ReactNode
+    revalidateTagsComponent: React.ReactNode
 }
 
 const tabsCustomTheme: CustomFlowbiteTheme = {

@@ -3,18 +3,26 @@ import { loadLocaleAsync } from '@/i18n/i18n-util.async'
 import { i18nObject } from '@/i18n/i18n-util'
 import type { Locales } from '@/i18n/i18n-types';
 import Welcome from '@/components/general/Welcome';
-import { DateHoursDiff } from '@/helpers';
+import { formatDate, getBaseUrl } from '@/helpers';
 import Image from 'next/image';
 import Link from 'next/link';
-import { GetTopTwoPostsByLanguageAndSortedByDate } from '@/helpers/db';
 import { notFound } from 'next/navigation';
 import Header from '@/components/general/Header';
+import type { TopTwoPostsType } from '@/helpers/db';
+
+async function GetTopTwoPosts(languadeCode: string) {
+  const res = await fetch(`${getBaseUrl()}/api/posts/${languadeCode}`, { next: { tags: ["postsData"] } });
+
+  if (!res.ok) throw new Error("Failed to fetch data");
+
+  return res.json() as Promise<{ posts: TopTwoPostsType }>;
+}
 
 export default async function Home({ params }: PageProps) {
   if (!['ar', 'en'].includes(params.lang.toLowerCase())) notFound();
   await loadLocaleAsync(params.lang as Locales);
   const LL = i18nObject(params.lang as Locales);
-  const posts = await GetTopTwoPostsByLanguageAndSortedByDate(params.lang);
+  const { posts } = await GetTopTwoPosts(params.lang).catch(() => ({ posts: [] }));
 
   return (
     <>
@@ -31,7 +39,7 @@ export default async function Home({ params }: PageProps) {
             </div>
             <div className="grid gap-8 lg:grid-cols-2">
 
-              {posts.map(post => {
+              {posts?.map(post => {
                 let className = ''
                 if (posts.length == 1) className = 'col-span-2';
 
@@ -41,9 +49,10 @@ export default async function Home({ params }: PageProps) {
                       <div className="flex justify-around">
                         {post.tags.map(tag => (
                           <Link key={tag.id} href={`/${params.lang}/tag/${tag.name}`}>
-                            <span className="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded">
+                            <span className="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded text-purple-400">
                               <svg className="mx-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d={`${tag.icon}`}>
+                                <path 
+                                d={tag.icon}>
                                 </path>
                               </svg>
                               {tag.name}
@@ -52,7 +61,7 @@ export default async function Home({ params }: PageProps) {
                         ))}
                       </div>
 
-                      <span className="text-sm">{LL.HOURS_AGO({ hours: DateHoursDiff(post.date.toString()) })}</span>
+                      <span className="text-sm text-gray-300">{`${LL.POSTED_AT()} ${formatDate(post.date.toString(), params.lang)}`}</span>
                     </div>
 
                     <h2 className="mb-2 text-2xl font-bold tracking-tight text-white">

@@ -15,7 +15,10 @@ const en = {
 	AUTHORS_PAGE: 'Authors',
 	TOPICS_PAGE: 'Topics',
 	READ_MORE: 'Read more',
+	SECONDS_AGO: '{seconds} {{second|seconds}} ago.',
+	MINUTES_AGO: '{minutes} {{minute|minutes}} ago.',
 	HOURS_AGO: '{hours} {{hour|hours}} ago.',
+	DAYS_AGO: '{days} {{day|days}} ago.',
 	AUTHOR_POSTS_PAGE: '{name}\'s Posts',
 	ERROR_404: "Error 404",
 	ERROR_404_PAGE_NOT_FOUND: 'We could not find this page',
@@ -25,7 +28,10 @@ const en = {
 	TAGS_NOT_FOUND: 'We could not find any tag',
 	POST_NOT_FOUND: 'We could not find this post',
 	TOPIC_OR_POSTS_NOT_FOUND: 'We could not find this topic or it doesn\'t have any associated posts',
-	TOPICS_NOT_FOUND: 'We could not find any topic'
+	TOPICS_NOT_FOUND: 'We could not find any topic',
+	SIGN_IN: 'Sign in',
+	SIGN_OUT: 'Sign out',
+	POSTED_AT: 'At'
 } satisfies Translation
 
 export default en

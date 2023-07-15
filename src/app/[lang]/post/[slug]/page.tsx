@@ -9,14 +9,23 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import "public/styles/highlight-js/androidstudio.css"
 import Pre from '@/components/general/pre';
-import { GetPostByTitleAndLanguage } from '@/helpers/db';
+import type { PostType } from '@/helpers/db';
 import { notFound } from 'next/navigation';
 import { s } from 'hastscript';
 import remarkToc from 'remark-toc'
 import Header from '@/components/general/Header';
+import { formatDate, getBaseUrl } from '@/helpers';
+
+async function GetPostData(slug: string, languageCode: string) {
+    const res = await fetch(`${getBaseUrl()}/api/post/${slug}/${languageCode}`, { next: { tags: ["postsData"] } });
+
+    if (!res.ok) throw new Error("Failed to fetch data");
+
+    return res.json() as Promise<{ post: PostType }>;
+}
 
 const PostPage = async ({ params }: PageProps) => {
-    const post = await GetPostByTitleAndLanguage(decodeURI(params.slug), params.lang);
+    const { post } = await GetPostData(decodeURI(params.slug), params.lang).catch(() => notFound());
     if (!post) notFound();
     await loadLocaleAsync(params.lang as Locales);
     const LL = i18nObject(params.lang as Locales);
@@ -32,7 +41,7 @@ const PostPage = async ({ params }: PageProps) => {
                     >
                         <header className='grid grid-rows-[0.2fr_1fr]'>
                             <div className='flex flex-col md:flex-row justify-between p-3 border-b'>
-                                <Link className='flex flex-col border-b md:border-0' href={`/${params.lang}/author/${post!.author.name}`}>
+                                <Link className='flex flex-col border-b md:border-0' href={`/${params.lang}/author/${post.author.name}`}>
                                     <div className='relative h-14 w-14 md:h-20 md:w-20 self-center'>
                                         <Image
                                             className='rounded-full border-2 border-white'
@@ -44,6 +53,7 @@ const PostPage = async ({ params }: PageProps) => {
                                     <p className='self-center'>{post!.author.name}</p>
                                 </Link>
                                 <p className='self-center break-normal px-2'>{post!.author.bio}</p>
+                                <p className='mt-auto'>{`${LL.POSTED_AT()} ${formatDate(post.date.toString(), params.lang)}`}</p>
                             </div>
 
                             <div className='flex flex-col'>

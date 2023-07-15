@@ -1,7 +1,7 @@
 'use client';
 import { createTag } from "@/helpers/actions";
 import type { Languages } from "@/helpers/db";
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { FailureAlert, SuccessAlert } from "../general/Alerts";
 
 const CreateTag = ({ languages }: Props) => {
@@ -11,6 +11,12 @@ const CreateTag = ({ languages }: Props) => {
     const [isError, setIsError] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     let [isPending, startTransition] = useTransition()
+    
+    useEffect(() => {
+        const timer = setTimeout(() => setIsSuccess(false), 10 * 1000);
+
+        return () => clearTimeout(timer);
+    }, [isSuccess]);
 
     return (
         <>

@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import type { Languages, MainTopics } from "@/helpers/db";
 import { FailureAlert, SuccessAlert } from "../general/Alerts";
 import { createTopicTranslation } from "@/helpers/actions";
@@ -12,6 +12,12 @@ const CreateTopicTranslation = ({ languages, topics }: Props) => {
 
     const [isError, setIsError] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    
+    useEffect(() => {
+        const timer = setTimeout(() => setIsSuccess(false), 10 * 1000);
+
+        return () => clearTimeout(timer);
+    }, [isSuccess]);
 
     return (
         <>

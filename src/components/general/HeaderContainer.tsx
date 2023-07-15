@@ -54,12 +54,14 @@ const HeaderContainer = ({ lang, headerLinks }: Props) => {
                             </li>
                         ))}
 
-                        {session?.user && <li>
-                            <Link href={`/${lang}/dashboard`} className={`block py-2 pl-3 pr-4 
+                        {session &&
+                            <li>
+                                <Link href={`/${lang}/dashboard`} className={`block py-2 pl-3 pr-4 
                                   ${currentActiveRoute == 'dashboard' ? 'text-blue-500' : 'text-white'}
                                   ${isArabic ? 'font-medium text-lg ' : ''}rounded md:bg-transparent md:p-0 md:hover:text-blue-700`} aria-current="page">Dashboard
-                            </Link>
-                        </li>}
+                                </Link>
+                            </li>
+                        }
                     </ul>
                 </div>
 

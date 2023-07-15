@@ -89,7 +89,7 @@ model Post {
 model Tag {
   id   Int    @id @default(autoincrement())
   name String
-  icon String
+  icon String @db.Text
 
   language   Language @relation(fields: [languageId], references: [id])
   languageId Int
@@ -105,10 +105,10 @@ model Language {
   code String
   name String
 
-  posts            Post[]
-  tags             Tag[]
-  topicTranslation Topic_Language_Translation[]
-  authors          Author[]
+  posts   Post[]
+  tags    Tag[]
+  topics  Topic_Language_Translation[]
+  authors Author[]
 
   @@unique([code, name])
 }
@@ -117,8 +117,8 @@ model Topic {
   id  Int    @id @default(autoincrement())
   tag String @unique
 
-  posts            Post[]
-  topicTranslation Topic_Language_Translation[]
+  posts     Post[]
+  languages Topic_Language_Translation[]
 }
 
 model Topic_Language_Translation {

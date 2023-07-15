@@ -2,11 +2,13 @@
 
 import type { Authors, Posts, Tags, Topics } from "./db";
 
-export const DateHoursDiff = (date: string): number => {
-    const firstDate = new Date(date);
-    const currentDate = new Date();
+export const formatDate = (date: string, languageCode: string) => {
+    const inputDate = new Date(date);
 
-    return Math.floor((currentDate.getTime() - firstDate.getTime()) / (3600 * 1000));
+
+    return `${inputDate.toLocaleDateString(languageCode, {
+        weekday: 'short', year: '2-digit', month: 'short', day: '2-digit'
+    })}`
 }
 
 
@@ -30,3 +32,12 @@ export function isTopic(topic: Entity): topic is Topics {
 }
 
 export type Entity = Authors | Tags | Posts | Topics;
+
+
+export const getBaseUrl = () => {
+    if (typeof window !== "undefined") return ""; // browser should use relative url
+    if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+    return `http://localhost:${process.env.PORT ?? 3000}`;
+};
+
+export const fetcher = (key: string) => fetch(key).then(res => res.json())

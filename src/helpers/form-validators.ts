@@ -24,7 +24,6 @@ export const AuthorInputSchema = z.object({
             });
     }),
     languageId: z.number(),
-    userId: z.string(),
 });
 
 export const TagInputSchema = z.object({
@@ -53,8 +52,9 @@ export const TopicInputSchema = z.object({
 export const TopicTranslationInputSchema = z.object({
     translation: z.string(),
     languageId: z.number(),
-    topicId: z.number(),
+    topicId: z.number()
 });
+
 
 export const PostInputSchema = z.object({
     title: z.string(),
@@ -62,7 +62,7 @@ export const PostInputSchema = z.object({
     authorId: z.number(),
     languageId: z.number(),
     topicId: z.number(),
-    published: z.boolean()
+    published: z.boolean(),
 });
 
 export type AuthorInputType = z.infer<typeof AuthorInputSchema>;

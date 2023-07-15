@@ -44,19 +44,22 @@ export const authOptions: NextAuthOptions = {
     },
     callbacks: {
         async signIn({ user, }) {
-            // const isAllowedToSignIn = user.is_admin === true;
-            // if (isAllowedToSignIn)
+            const isAllowedToSignIn = user.is_admin === true;
+            if (isAllowedToSignIn)
                 return true;
 
             return false;
         },
         async jwt({ token, user }) {
-            if (user)
+            if (user){
                 token.id = user.id
+                token.is_admin = user.is_admin
+            }
             return token
         },
         async session({ session, token }) {
             session.user.id = token.id
+            session.user.is_admin = token.is_admin
             return session
         }
     }

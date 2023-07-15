@@ -2,10 +2,18 @@ import { loadLocaleAsync } from '@/i18n/i18n-util.async';
 import { i18nObject } from '@/i18n/i18n-util';
 import type { Locales } from '@/i18n/i18n-types';
 import { Metadata } from 'next'
-import { CapitalizeFirstLetter } from '@/helpers';
+import { CapitalizeFirstLetter, getBaseUrl } from '@/helpers';
 import CommonContainer from '@/components/general/CommonContainer';
-import { GetPostsByTagAndLanguage } from '@/helpers/db';
 import { notFound } from 'next/navigation';
+import type { Posts } from '@/helpers/db';
+
+async function GetPosts(tagName: string, languageCode: string) {
+    const res = await fetch(`${getBaseUrl()}/api/tag/${languageCode}/${tagName}`, { next: { tags: ["tagsPosts"] } });
+
+    if (!res.ok) throw new Error("Failed fetch data");
+
+    return res.json() as Promise<{posts: Posts}>;
+}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     await loadLocaleAsync(params.lang as Locales);
@@ -18,7 +26,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function TagPage({ params }: PageProps) {
-    const posts = await GetPostsByTagAndLanguage(decodeURI(params.tag), params.lang);
+    const { posts } = await GetPosts(params.tag, params.lang).catch(() => notFound());
     if (!posts.length) notFound();
     await loadLocaleAsync(params.lang as Locales);
     const LL = i18nObject(params.lang as Locales);
@@ -26,7 +34,7 @@ export default async function TagPage({ params }: PageProps) {
     return (
         <CommonContainer
             lang={params.lang}
-            header={`${LL.TAGS_PAGE()} - ${params.tag}`}
+            header={`${LL.TAGS_PAGE()} - ${decodeURI(params.tag)}`}
             contentList={posts}
         />
     );

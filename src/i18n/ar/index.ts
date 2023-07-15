@@ -15,7 +15,10 @@ const ar = {
 	AUTHORS_PAGE: 'الكُتاب',
 	TOPICS_PAGE: 'المواضيع',
 	READ_MORE: 'المزيد',
+	SECONDS_AGO: 'منذ {seconds} {{لاشئ|ثانية|ثانيتين|ثواني|ثانية}}.',
+	MINUTES_AGO: 'منذ {minutes} {{لاشئ|دقيقة|دقيقتين|دقائق|دقيقة}}.',
 	HOURS_AGO: 'منذ {hours} {{لاشئ|ساعة|ساعتين|ساعات|ساعة}}.',
+	DAYS_AGO: 'منذ {days} {{لاشئ|يوم|يومين|أيام|يوم}}.',
 	AUTHOR_POSTS_PAGE: 'مقالات {name}',
 	ERROR_404: 'خطأ 404',
 	ERROR_404_PAGE_NOT_FOUND: 'لم نتمكن من العثور على هذه الصفحة',
@@ -26,6 +29,10 @@ const ar = {
 	POST_NOT_FOUND: 'لم نتمكن من العثور علي هذا المقال',
 	TOPIC_OR_POSTS_NOT_FOUND: 'لم نتمكن من العثور علي هذا الموضوع أو لا يوجد أي مقالات متعلقة',
 	TOPICS_NOT_FOUND: 'لم نتمكن من العثور علي أي موضوع',
+	SIGN_IN: 'تسجيل الدخول',
+	SIGN_OUT: 'تسجيل الخروج',
+	POSTED_AT: 'في'
+
 } satisfies BaseTranslation
 
 export default ar
