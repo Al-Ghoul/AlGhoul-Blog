@@ -39,7 +39,7 @@ const EditPostPage = ({ params }: PageProps) => {
 
     return (
         <main className="flex min-h-screen p-1 md:p-24 md:px-48">
-            <div className="flex-col min-w-full mx-auto lg:mb-16 mb-8 backdrop-blur-3xl bg-black/25 rounded-xl p-3">
+            <div className="flex-col min-w-full mx-auto lg:mb-16 mb-8 backdrop-blur-3xl bg-blue-800/70 rounded-xl p-3">
                 {
                     isError &&
                     <FailureAlert content="Failed to edit this post, please check your input." />

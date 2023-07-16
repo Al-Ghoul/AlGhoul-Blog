@@ -42,7 +42,7 @@ const SearchBar = ({ languageCode }: Props) => {
                         <span className="sr-only">Loading...</span>
                     </div>
                     :
-                    <ul className="flex flex-col backdrop-blur-3xl bg-black/25 absolute rounded-lg mt-7">
+                    <ul className="flex flex-col backdrop-blur-3xl bg-blue-800/70 absolute rounded-lg mt-7">
                         {searchResults.map((result) => (
                             <li className="p-2" key={result.id}><Link href={`/${languageCode}/post/${result.title}`}>{result.title}</Link></li>
                         ))}

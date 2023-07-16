@@ -33,7 +33,7 @@ export default async function Home({ params }: PageProps) {
 
         <section id='mainsection' dir={params.lang == 'ar' ? 'rtl' : ''}>
           <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-            <div className="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8 backdrop-blur-3xl bg-black/25 rounded-xl p-3">
+            <div className="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8 backdrop-blur-3xl bg-blue-800/70 rounded-xl p-3">
               <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold text-white">{LL.MY_BLOG()}</h2>
               <p className="font-light sm:text-xl text-white">{LL.BLOG_ENTRY()}</p>
             </div>

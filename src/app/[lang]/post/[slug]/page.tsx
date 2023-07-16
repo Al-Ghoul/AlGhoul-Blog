@@ -16,6 +16,7 @@ import remarkToc from 'remark-toc'
 import Header from '@/components/general/Header';
 import { formatDate, getBaseUrl } from '@/helpers';
 import Callout from '@/components/general/Callout';
+import remarkGfm from 'remark-gfm'
 
 async function GetPostData(slug: string, languageCode: string) {
     const res = await fetch(`${getBaseUrl()}/api/post/${slug}/${languageCode}`, { next: { tags: ["postsData"] } });
@@ -35,12 +36,12 @@ const PostPage = async ({ params }: PageProps) => {
         <>
             <Header lang={params.lang} />
             <main className="flex min-h-screen p-1 md:p-24 md:px-48">
-                <div className="flex min-w-full justify-between mx-auto max-w-screen-lg backdrop-blur-3xl bg-black/25 text-white rounded-md">
+                <div className="flex min-w-full justify-between mx-auto max-w-screen-lg backdrop-blur-3xl bg-blue-800/70 text-white rounded-md">
                     <article
                         className="grid flex-auto grid-cols-[0.3fr_1fr] grid-rows-[1fr_0.05fr] hyphens-auto"
                         dir={params.lang == 'ar' ? 'rtl' : ''}
                     >
-                        <header className='grid grid-rows-[0.2fr_1fr]'>
+                        <header className='grid grid-rows-[180px_1fr]'>
                             <div className='flex flex-col md:flex-row justify-between p-3 border-b'>
                                 <Link className='flex flex-col border-b md:border-0' href={`/${params.lang}/author/${post.author.name}`}>
                                     <div className='relative h-14 w-14 md:h-20 md:w-20 self-center'>
@@ -66,12 +67,16 @@ const PostPage = async ({ params }: PageProps) => {
                         </header>
 
                         <div className='border-s border-white p-5'>
-                            <div className='prose prose-p:text-white'>
+                            <div className='prose max-w-max prose-p:text-white prose-headings:text-white
+                             prose-a:decoration-black prose-strong:text-white prose-code:text-white
+                              prose-a:text-white prose-p:font-semibold prose-a:font-semibold
+                              prose-code:bg-blue-800/70 marker:text-white'
+                            >
                                 <MDXRemote
                                     source={post.content}
                                     options={{
                                         mdxOptions: {
-                                            remarkPlugins: [[remarkToc, { heading: 'toc' }]],
+                                            remarkPlugins: [[remarkToc, { heading: 'toc|Table of contents|المحتوي' }], remarkGfm],
                                             rehypePlugins: [rehypeHighlight, rehypeSlug, [rehypeAutolinkHeadings, {
                                                 content(node: any) {
                                                     return [

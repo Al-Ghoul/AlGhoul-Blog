@@ -11,7 +11,7 @@ const CommonContainer = async ({ lang, header, contentList, author }: Props) => 
     return (
         <main className="flex min-h-screen p-1 md:p-24  md:px-48">
             <div
-                className="flex flex-col min-w-full mx-auto lg:mb-16 mb-8 backdrop-blur-3xl bg-black/25 rounded-xl p-3"
+                className="flex flex-col min-w-full mx-auto lg:mb-16 mb-8 backdrop-blur-3xl bg-blue-800/70 rounded-xl p-3"
                 dir={lang == 'ar' ? 'rtl' : ''}
             >
                 <div className='flex justify-between'>

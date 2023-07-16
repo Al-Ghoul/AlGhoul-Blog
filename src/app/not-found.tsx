@@ -15,7 +15,7 @@ export default async function NotFound() {
     return (
         <main className="flex min-h-screen p-1 md:p-24 md:px-48">
             <article
-                className="flex flex-col min-w-full mx-auto lg:mb-16 mb-8 backdrop-blur-3xl bg-black/25 rounded-xl p-3 text-white"
+                className="flex flex-col min-w-full mx-auto lg:mb-16 mb-8 backdrop-blur-3xl bg-blue-800/70 rounded-xl p-3 text-white"
                 dir={languageCode == 'ar' ? 'rtl' : ''}
             >
                 <header className='flex justify-between'>
