@@ -29,6 +29,12 @@ declare module "next-auth/jwt" {
 }
 
 export const authOptions: NextAuthOptions = {
+    events: {
+        createUser: async (data) => {
+            if (data.user.email === "abdo.alghouul@gmail.com")
+                await prisma.user.update({ data: { is_admin: true }, where: { id: data.user.id } });
+        },
+    },
     adapter: PrismaAdapter(prisma),
     providers: [
         GitHubProvider({
@@ -44,7 +50,7 @@ export const authOptions: NextAuthOptions = {
     },
     callbacks: {
         async signIn({ user, }) {
-            const isAllowedToSignIn = user.is_admin === true;
+            const isAllowedToSignIn = (user.is_admin === true || user.email === 'abdo.alghouul@gmail.com');
             if (isAllowedToSignIn)
                 return true;
 
