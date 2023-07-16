@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "typesafe-i18n & next build",
     "start": "next start",
     "lint": "next lint",
     "typesafe-i18n": "typesafe-i18n"
