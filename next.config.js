@@ -13,8 +13,10 @@ const nextConfig = {
     },
     experimental: {
         serverActions: true,
+        mdxRs: true
     }
 }
 
+const withMDX = require('@next/mdx')()
 
-module.exports = nextConfig
+module.exports = withMDX(nextConfig)

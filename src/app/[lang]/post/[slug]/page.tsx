@@ -70,7 +70,7 @@ const PostPage = async ({ params }: PageProps) => {
                             <div className='prose max-w-max prose-p:text-white prose-headings:text-white
                              prose-a:decoration-black prose-strong:text-white prose-code:text-white
                               prose-a:text-white prose-p:font-semibold prose-a:font-semibold
-                              prose-code:bg-blue-800/70 marker:text-white'
+                              prose-code:bg-blue-800/70 marker:text-white font-cairo'
                             >
                                 <MDXRemote
                                     source={post.content}

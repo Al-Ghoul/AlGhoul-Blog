@@ -10,7 +10,7 @@ const en = {
 	MY_BLOG: 'My Blog',
 	BLOG_ENTRY: 'There\'s plenty of resources for lots of learning materials out there, it is our privilege that we exist in this era, be inspired and use it wisely.',
 	HOME_PAGE: 'Home',
-	ABOUT_US: 'About us',
+	ABOUT_ME: 'About me',
 	TAGS_PAGE: 'Tags',
 	AUTHORS_PAGE: 'Authors',
 	TOPICS_PAGE: 'Topics',

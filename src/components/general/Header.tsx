@@ -8,7 +8,7 @@ const Header = async ({ lang }: Props) => {
     const headerLinks = [['tags', LL.TAGS_PAGE()],
     ['authors', LL.AUTHORS_PAGE()],
     ['topics', LL.TOPICS_PAGE()],
-    ['about', LL.ABOUT_US()]];
+    ['about', LL.ABOUT_ME()]];
 
     return (
         <HeaderContainer lang={lang} headerLinks={headerLinks} />
