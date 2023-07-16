@@ -19,7 +19,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     await loadLocaleAsync(params.lang as Locales);
     const LL = i18nObject(params.lang as Locales);
     const { topic } = await GetTopicWithPosts(parseInt(params.topic), params.lang).catch(() => notFound());
-    
+
+    if (!topic) notFound();
+
     return {
         title: `${LL.siteTitle()} - ${CapitalizeFirstLetter(topic.translation)}`,
     }
