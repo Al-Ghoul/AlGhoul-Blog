@@ -1,25 +1,24 @@
 import '@/app/globals.css';
-import { headers } from 'next/headers'
 import { CairoFont, Aref_Ruqaa, inter } from '@/helpers/fonts';
 import Link from 'next/link';
 import { loadLocaleAsync } from '@/i18n/i18n-util.async';
 import { i18nObject } from '@/i18n/i18n-util';
 import type { Locales } from '@/i18n/i18n-types';
 import { NextAuthProvider } from '@/components/general/Provider';
+import { cookies } from 'next/headers'
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const headersList = headers()
-  let languageCode = headersList.get('x-invoke-path')!.split('/')[1] as Locales;
-  if (!['ar', 'en'].includes(languageCode.toLowerCase())) languageCode = 'ar';
-  await loadLocaleAsync(languageCode);
-  const LL = i18nObject(languageCode);
+  const cookieStore = cookies()
+  const languageCode = cookieStore.get('locale');
+  await loadLocaleAsync(languageCode?.value as Locales || 'ar');
+  const LL = i18nObject(languageCode?.value as Locales || 'ar');
 
   return (
-    <html lang={languageCode} className={`bg-[url('/../images/background.png')] bg-cover bg-no-repeat 
+    <html lang={languageCode?.value || 'ar'} className={`bg-[url('/../images/background.png')] bg-cover bg-no-repeat 
       ${inter.className} ${CairoFont.variable} ${Aref_Ruqaa.variable} bg-center md:bg-unset bg-fixed
       scrollbar-thin scrollbar-thumb-[#326C85] scrollbar-track-[#4A3470] scrollbar-thumb-rounded-lg`}>
 

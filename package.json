@@ -6,9 +6,9 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 80",
     "build": "typesafe-i18n & prisma generate & next build",
-    "start": "next start",
+    "start": "next start -p 80",
     "lint": "next lint",
     "typesafe-i18n": "typesafe-i18n"
   },

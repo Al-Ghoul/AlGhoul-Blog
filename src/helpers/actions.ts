@@ -5,6 +5,8 @@ import { AuthorInputSchema, PostInputSchema, TagInputSchema, TopicInputSchema, T
 import { revalidateTag } from 'next/cache'
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { Locales } from "@/i18n/i18n-types";
+import { cookies } from "next/headers";
 
 async function IsAdminUser() {
     const session = await getServerSession(authOptions);
@@ -141,4 +143,9 @@ export const revalidateTagAction = async (tag: string) => {
             revalidateTag(tag);
         })
         .catch(e => { throw Error(e) });
+}
+
+export const setLocale = async (locale: Locales) => {
+    const cookieStore = cookies();
+    cookieStore.set('locale', locale, { secure: true });
 }

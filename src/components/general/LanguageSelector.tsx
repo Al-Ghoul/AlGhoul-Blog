@@ -1,11 +1,20 @@
-import Link from "next/link";
+'use client';
 import { SA, US } from 'country-flag-icons/react/3x2'
+import { setLocale } from "@/helpers/actions";
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 
 const LanguageSelector = ({ languageCode }: Props) => {
     const isArabic = languageCode == 'ar';
     const languages = { "en": "English (US)", "ar": "العربية (KSA)" };
     const language = languages[languageCode];
+    const [isRedirect, setIsRedirect] = useState([false, '']);
+    const router = useRouter();
+
+    useEffect(() => {
+        if (isRedirect[0] === true) router.push(`/${isRedirect[1]}`);
+    }, [isRedirect, router]);
 
     return (
         <div className="flex items-center md:order-2">
@@ -25,18 +34,18 @@ const LanguageSelector = ({ languageCode }: Props) => {
             <div className="z-50 hidden my-4 text-base list-none divide-y divide-gray-100 rounded-lg shadow bg-gradient-to-bl from-[#4A3470] to-[#326C85]" id="language-dropdown-menu">
                 <ul className="py-2 font-medium" role="none">
                     <li>
-                        <Link href="/ar" className="block px-4 py-2 text-sm hover:text-blue-400" role="menuitem">
+                        <button onClick={() => { setLocale('ar').then(() => setIsRedirect([true, 'ar'])) }} className="block px-4 py-2 text-sm hover:text-blue-400" role="menuitem">
                             <div className="inline-flex items-center">
                                 <SA title="United States" className='h-4 w-4 mr-1' /> العربية (KSA)
                             </div>
-                        </Link>
+                        </button>
                     </li>
                     <li>
-                        <Link href="/en" className="block px-4 py-2 text-sm hover:text-blue-400" role="menuitem">
+                        <button onClick={() => { setLocale('en').then(() => setIsRedirect([true, 'en'])) }} className="block px-4 py-2 text-sm hover:text-blue-400" role="menuitem">
                             <div className="inline-flex items-center">
                                 <US title="United States" className='h-4 w-4 mr-1' /> English (US)
                             </div>
-                        </Link>
+                        </button>
                     </li>
                 </ul>
             </div>
