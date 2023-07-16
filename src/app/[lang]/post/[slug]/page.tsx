@@ -15,6 +15,7 @@ import { s } from 'hastscript';
 import remarkToc from 'remark-toc'
 import Header from '@/components/general/Header';
 import { formatDate, getBaseUrl } from '@/helpers';
+import Callout from '@/components/general/Callout';
 
 async function GetPostData(slug: string, languageCode: string) {
     const res = await fetch(`${getBaseUrl()}/api/post/${slug}/${languageCode}`, { next: { tags: ["postsData"] } });
@@ -96,6 +97,7 @@ const PostPage = async ({ params }: PageProps) => {
                                     components={
                                         {
                                             pre: Pre,
+                                            Callout
                                         }
                                     }
                                 />
