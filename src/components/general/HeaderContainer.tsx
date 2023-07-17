@@ -8,6 +8,7 @@ import { loadAllLocales } from '@/i18n/i18n-util.sync';
 import { i18n } from '@/i18n/i18n-util';
 import { useSession } from "next-auth/react"
 import SearchBar from './SearchBar';
+import { useEffect } from 'react';
 
 const HeaderContainer = ({ lang, headerLinks }: Props) => {
     const paths = usePathname().split('/');
@@ -17,10 +18,13 @@ const HeaderContainer = ({ lang, headerLinks }: Props) => {
     const LL = i18n()[lang];
     const { data: session } = useSession();
 
-    if (typeof window !== 'undefined') {
-        //do stuff related with dom
-        initFlowbite();
-    }
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            //do stuff related with dom
+            initFlowbite();
+        }
+
+    }, []);
 
     return (
         <nav className="bg-gradient-to-bl from-[#4A3470] to-[#326C85] text-white border-b-[1px] border-black">
@@ -30,7 +34,7 @@ const HeaderContainer = ({ lang, headerLinks }: Props) => {
                     <span className='self-center text-xl md:text-3xl whitespace-nowrap text-[#f53c3c] font-aref'>{LL.siteTitle()}</span>
                 </Link>
 
-                <SearchBar languageCode={lang}/>
+                <SearchBar languageCode={lang} />
                 <LanguageSelector languageCode={lang} />
 
                 <button data-collapse-toggle="navbar-dropdown" type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-dropdown" aria-expanded="false">
