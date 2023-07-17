@@ -3,12 +3,13 @@ import { loadLocaleAsync } from '@/i18n/i18n-util.async'
 import { i18nObject } from '@/i18n/i18n-util'
 import type { Locales } from '@/i18n/i18n-types';
 import Welcome from '@/components/general/Welcome';
-import { formatDate, getBaseUrl } from '@/helpers';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import Header from '@/components/general/Header';
 import type { TopTwoPostsType } from '@/helpers/db';
+import { formatDate, getBaseUrl } from '@/helpers';
+import Header from '@/components/general/Header';
+
 
 async function GetTopTwoPosts(languadeCode: string) {
   const res = await fetch(`${getBaseUrl()}/api/posts/${languadeCode}`, { next: { tags: ["postsData"] } });
@@ -51,8 +52,8 @@ export default async function Home({ params }: PageProps) {
                           <Link key={tag.id} href={`/${params.lang}/tag/${tag.name}`}>
                             <span className="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded text-purple-400">
                               <svg className="mx-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path 
-                                d={tag.icon}>
+                                <path
+                                  d={tag.icon}>
                                 </path>
                               </svg>
                               {tag.name}
@@ -69,8 +70,8 @@ export default async function Home({ params }: PageProps) {
                         {post.title}
                       </Link>
                     </h2>
-                    <p className="mb-5 font-light text-gray-200">{post.content.length > 1 ? `${post.content.substring(0, 500)}...` : 'No content?'}</p>
 
+                        
                     <div className="flex justify-between items-center mt-auto">
 
                       <div className="flex items-center">

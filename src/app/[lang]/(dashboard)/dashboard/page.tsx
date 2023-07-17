@@ -6,7 +6,7 @@ import CreateTopic from "@/components/Dashboard/CreateTopic";
 import CreateTopicTranslation from "@/components/Dashboard/CreateTopicTranslation";
 import DashboardTabs from "@/components/Dashboard/DashboardTabs";
 import RevalidateTag from "@/components/Dashboard/RevalidateTag";
-import { GetAuthorsWithLanguages, GetLanguages, GetMainTopics, GetTags, prisma } from "@/helpers/db";
+import { GetAuthorsWithLanguages, GetLanguages, GetMainTopics, GetTags } from "@/helpers/db";
 import { getServerSession } from "next-auth/next"
 
 
