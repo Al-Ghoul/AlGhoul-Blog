@@ -14,6 +14,7 @@ const EditPostPage = ({ params }: PageProps) => {
     let [isPending, startTransition] = useTransition();
     const titleInputRef = useRef<HTMLInputElement>(null);
     const contentInputRef = useRef<HTMLTextAreaElement>(null);
+    const descriptionInputRef = useRef<HTMLInputElement>(null);
     const isPublishedInputRef = useRef<HTMLInputElement>(null);
 
     const languageInputRef = useRef<HTMLSelectElement>(null);
@@ -36,7 +37,6 @@ const EditPostPage = ({ params }: PageProps) => {
     if (isLoading) return <LoadingSpinner />
     if (error || !data) notFound();
 
-
     return (
         <main className="flex min-h-screen p-1 md:p-24 md:px-48">
             <div className="flex-col min-w-full mx-auto lg:mb-16 mb-8 backdrop-blur-3xl bg-blue-800/70 rounded-xl p-3">
@@ -55,6 +55,7 @@ const EditPostPage = ({ params }: PageProps) => {
                         startTransition(() => editPost({
                             title: titleInputRef.current?.value!,
                             content: contentInputRef.current?.value!,
+                            description: descriptionInputRef.current?.value!,
                             languageId: parseInt(languageInputRef.current?.value!),
                             topicId: parseInt(topicInputRef.current?.value!),
                             authorId: parseInt(authorInputRef.current?.value!),
@@ -73,6 +74,8 @@ const EditPostPage = ({ params }: PageProps) => {
                     }}>
                     <label htmlFor="title" className="text-white">Enter Post Title: </label>
                     <input ref={titleInputRef} className="h-6 rounded-lg bg-blue-200" name="title" type="text" required defaultValue={data.post.title} />
+                    <label htmlFor="description" className="text-white">Enter Post Description: </label>
+                    <input ref={descriptionInputRef} className="h-6 rounded-lg bg-blue-200" name="description" type="text" required  defaultValue={data.post.description}/>
                     <label htmlFor="content" className="text-white">Enter Post Content: </label>
                     <textarea ref={contentInputRef} className="rounded-lg bg-blue-200" name="content" required defaultValue={data.post.content} />
                     <div>

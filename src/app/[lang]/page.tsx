@@ -71,13 +71,12 @@ export default async function Home({ params }: PageProps) {
                       </Link>
                     </h2>
 
-                        
+                    <p className="mb-5 font-light text-gray-200">{post.description.length > 1 ? `${post.description}` : 'No description?'}</p>
                     <div className="flex justify-between items-center mt-auto">
 
                       <div className="flex items-center">
                         <Link className='inline-flex' href={`/${params.lang}/author/${post.author.name}`}>
                           <div className='relative w-7 h-7'>
-
                             <Image className="rounded-full" fill src={`${post.author.profileImageURL}`} alt={`${post.author.name}'s avatar`} />
                           </div>
                           <span className="font-medium text-white mx-2">
@@ -112,5 +111,5 @@ export default async function Home({ params }: PageProps) {
 }
 
 interface PageProps {
-  params: { lang: 'ar' | 'en' }
+  params: { lang: Locales }
 }

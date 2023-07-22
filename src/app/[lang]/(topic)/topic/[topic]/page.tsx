@@ -2,7 +2,7 @@ import { loadLocaleAsync } from '@/i18n/i18n-util.async';
 import { i18nObject } from '@/i18n/i18n-util';
 import type { Locales } from '@/i18n/i18n-types';
 import { Metadata } from 'next'
-import { CapitalizeFirstLetter, getBaseUrl } from '@/helpers';
+import { CapitalizeFirstLetter, getBaseUrl, getMetaData } from '@/helpers';
 import CommonContainer from '@/components/general/CommonContainer';
 import { notFound } from 'next/navigation';
 import type { Posts, Topics } from '@/helpers/db';
@@ -16,14 +16,23 @@ async function GetTopicWithPosts(topicId: number, languageCode: string) {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    const { topic } = await GetTopicWithPosts(parseInt(params.topic), params.lang).catch(() => notFound());
+    if (!topic) notFound();
     await loadLocaleAsync(params.lang as Locales);
     const LL = i18nObject(params.lang as Locales);
-    const { topic } = await GetTopicWithPosts(parseInt(params.topic), params.lang).catch(() => notFound());
-
-    if (!topic) notFound();
 
     return {
-        title: `${LL.siteTitle()} - ${CapitalizeFirstLetter(topic.translation)}`,
+        title: CapitalizeFirstLetter(topic.translation),
+        ...getMetaData(
+            {
+                params: {
+                    title: `${LL.siteTitle()} | ${CapitalizeFirstLetter(topic.translation)}`,
+                    languageCode: params.lang,
+                    description: LL.DESCRIPTION(),
+                    currentPath: `/topic/${topic.topicId}`,
+                }
+            }
+        )
     }
 }
 
@@ -46,7 +55,7 @@ export default async function TopicPage({ params }: PageProps) {
 
 interface PageProps {
     params: {
-        lang: string,
+        lang: Locales,
         topic: string,
     }
 }

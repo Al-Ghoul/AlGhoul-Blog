@@ -6,6 +6,56 @@ import { i18nObject } from '@/i18n/i18n-util';
 import type { Locales } from '@/i18n/i18n-types';
 import { NextAuthProvider } from '@/components/general/Provider';
 import { cookies } from 'next/headers'
+import { Metadata } from 'next'
+import { getBaseUrl } from '@/helpers';
+
+
+export const metadata: Metadata = {
+  metadataBase: new URL(getBaseUrl()),
+  title: "AlGhoul | الغول",
+  description: "A developer's blog that's meant to be creative, inspirational & educational.",
+  alternates: {
+    canonical: '/',
+    languages: {
+      'ar': '/ar',
+      'en': '/en',
+      'en-US': '/en',
+    },
+  },
+  generator: 'Next.js',
+  referrer: 'origin-when-cross-origin',
+  creator: 'Abdo .AlGhoul',
+  publisher: 'Vercel',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    title: "AlGhoul | الغول",
+    type: 'website',
+    url: '/',
+    description: "A developer's blog that's meant to be creative, inspirational & educational.",
+  },
+  category: 'blogging',
+  twitter: {
+    creator: '@abdo_alghoul',
+    creatorId: '960225296258564096',
+    description: "A developer's blog that's meant to be creative, inspirational & educational.",
+    card: "summary",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+}
 
 export default async function RootLayout({
   children,
@@ -13,12 +63,13 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const cookieStore = cookies()
-  const languageCode = cookieStore.get('locale');
-  await loadLocaleAsync(languageCode?.value as Locales || 'ar');
-  const LL = i18nObject(languageCode?.value as Locales || 'ar');
+  const cookieLanguageCode = cookieStore.get('locale');
+  const languageCode = cookieLanguageCode?.value as Locales || 'ar';
+  await loadLocaleAsync(languageCode);
+  const LL = i18nObject(languageCode);
 
   return (
-    <html lang={languageCode?.value || 'ar'} className={`bg-[url('/../images/background.png')] bg-cover bg-no-repeat 
+    <html lang={languageCode} className={`bg-[url('/../images/background.png')] bg-cover bg-no-repeat 
       ${inter.className} ${CairoFont.variable} ${Aref_Ruqaa.variable} bg-center md:bg-unset bg-fixed
       scrollbar-thin scrollbar-thumb-[#326C85] scrollbar-track-[#4A3470] scrollbar-thumb-rounded-lg`}>
 

@@ -6,6 +6,7 @@ import DashboardHeader from '@/components/general/DashboardHeader';
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import type { Locales } from '@/i18n/i18n-types';
 
 export async function generateMetadata({ params }: { params: PageProps }): Promise<Metadata> {
 
@@ -14,6 +15,17 @@ export async function generateMetadata({ params }: { params: PageProps }): Promi
 
   return {
     title: LL.siteTitle(),
+    robots: {
+      index: false,
+      follow: false,
+      nocache: true,
+      googleBot: {
+        index: false,
+        follow: false,
+        noimageindex: true,
+        notranslate: true,
+      },
+    },
   }
 }
 
@@ -42,5 +54,5 @@ export default async function DashboardLayout({
 
 
 interface PageProps {
-  lang: "ar" | "en"
+  lang: Locales
 }

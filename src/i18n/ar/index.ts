@@ -31,7 +31,13 @@ const ar = {
 	TOPICS_NOT_FOUND: 'لم نتمكن من العثور علي أي موضوع',
 	SIGN_IN: 'تسجيل الدخول',
 	SIGN_OUT: 'تسجيل الخروج',
-	POSTED_AT: 'في'
+	POSTED_AT: 'في',
+	DESCRIPTION: 'مدونة مطور تهدف إلى أن تكون إبداعية وملهمة وتعليمية',
+	DESCRIPTION_ABOUT: "تهدف هذه الصفحة إلى سرد مهاراتي بطريقة قصيرة وموجزة",
+	DESCRIPTION_AUTHORS: "تهدف هذه الصفحة إلى سرد كافة المؤلفين المتاحين في الموقع",
+	DESCRIPTION_TAGS: "تهدف هذه الصفحة إلى سرد كافة البطاقات المتاحة",
+	DESCRIPTION_TOPICS: "تهدف هذه الصفحة إلى سرد كافة الموضوعات التي نشرنا عنها",
+	siteTitlePostfix: 'مدونة'
 
 } satisfies BaseTranslation
 

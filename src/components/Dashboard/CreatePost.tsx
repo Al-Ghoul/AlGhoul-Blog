@@ -9,6 +9,7 @@ const CreatePost = ({ languages, topics, authors, tags }: Props) => {
     let [isPending, startTransition] = useTransition();
     const titleInputRef = useRef<HTMLInputElement>(null);
     const contentInputRef = useRef<HTMLTextAreaElement>(null);
+    const descriptionInputRef = useRef<HTMLInputElement>(null);
     const isPublishedInputRef = useRef<HTMLInputElement>(null);
 
     const languageInputRef = useRef<HTMLSelectElement>(null);
@@ -43,6 +44,7 @@ const CreatePost = ({ languages, topics, authors, tags }: Props) => {
                     startTransition(() => createPost({
                         title: titleInputRef.current?.value!,
                         content: contentInputRef.current?.value!,
+                        description: descriptionInputRef.current?.value!,
                         languageId: parseInt(languageInputRef.current?.value!),
                         topicId: parseInt(topicInputRef.current?.value!),
                         authorId: parseInt(authorInputRef.current?.value!),
@@ -60,6 +62,8 @@ const CreatePost = ({ languages, topics, authors, tags }: Props) => {
                 }}>
                 <label htmlFor="title" className="text-white">Enter Post Title: </label>
                 <input ref={titleInputRef} className="h-6 rounded-lg bg-blue-200" name="title" type="text" required />
+                <label htmlFor="description" className="text-white">Enter Post Description: </label>
+                <input ref={descriptionInputRef} className="h-6 rounded-lg bg-blue-200" name="description" type="text" required />
                 <label htmlFor="content" className="text-white">Enter Post Content: </label>
                 <textarea ref={contentInputRef} className="rounded-lg bg-blue-200" name="content" required />
                 <div>

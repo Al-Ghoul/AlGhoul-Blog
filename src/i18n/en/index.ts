@@ -31,7 +31,13 @@ const en = {
 	TOPICS_NOT_FOUND: 'We could not find any topic',
 	SIGN_IN: 'Sign in',
 	SIGN_OUT: 'Sign out',
-	POSTED_AT: 'At'
+	POSTED_AT: 'At',
+	DESCRIPTION: "A developer's blog that's meant to be creative, inspirational & educational.",
+	DESCRIPTION_ABOUT: "This page aims to list out my skills in a short and concise way",
+	DESCRIPTION_AUTHORS: "This page aims to list out all the available authors on site",
+	DESCRIPTION_TAGS: "This page aims to list out all the available tags",
+	DESCRIPTION_TOPICS: "This page aims to list out all the topics we posted about",
+	siteTitlePostfix: 'Blog'
 } satisfies Translation
 
 export default en

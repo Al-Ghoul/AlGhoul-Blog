@@ -5,7 +5,7 @@ import { Metadata } from 'next'
 import CommonContainer from '@/components/general/CommonContainer';
 import type { Topics } from '@/helpers/db';
 import { notFound } from 'next/navigation';
-import { getBaseUrl } from '@/helpers';
+import { getBaseUrl, getMetaData } from '@/helpers';
 
 async function GetTopics(languageCode: string) {
     const res = await fetch(`${getBaseUrl()}/api/topics/${languageCode}`, { next: { tags: ["topics"] } });
@@ -20,7 +20,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const LL = i18nObject(params.lang as Locales);
 
     return {
-        title: `${LL.siteTitle()} - ${LL.TOPICS_PAGE()}`,
+        title: LL.TOPICS_PAGE(),
+        description: LL.DESCRIPTION_TOPICS(),
+        ...getMetaData(
+            {
+                params: {
+                    title: `${LL.siteTitle()} | ${LL.TOPICS_PAGE()}`,
+                    languageCode: params.lang,
+                    description: LL.DESCRIPTION_TOPICS(),
+                    currentPath: '/topics',
+                }
+            }
+        )
     }
 }
 
@@ -41,6 +52,6 @@ export default async function TopicsPage({ params }: PageProps) {
 
 interface PageProps {
     params: {
-        lang: string,
+        lang: Locales,
     }
 }

@@ -18,7 +18,7 @@ const MDXRenderer = async ({ content, languageCode }: ComponentProps) => {
          prose-code:bg-blue-800/70 marker:text-white font-cairo
         prose-li:m-5
          '
-            dir={languageCode == 'ar' ? 'rtl' : ''}
+            dir={languageCode == 'en' ? 'ltr' : 'rtl'}
         >
             <MDXRemote
                 source={content}
@@ -68,7 +68,7 @@ function BlockQuote(props: DetailedHTMLProps<BlockquoteHTMLAttributes<HTMLQuoteE
 
     return (
         <blockquote
-            className={languageCode?.value == 'ar' ? 'border-r-4 border-l-0 pr-3' : ""}
+            className={languageCode?.value == 'en' ? '' : "border-r-4 border-l-0 pr-3"}
         >
             {props.children}
         </blockquote>

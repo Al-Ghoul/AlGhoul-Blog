@@ -4,7 +4,7 @@ import type { Locales } from '@/i18n/i18n-types';
 import { Metadata } from 'next'
 import CommonContainer from '@/components/general/CommonContainer';
 import { notFound } from 'next/navigation';
-import { getBaseUrl } from '@/helpers';
+import { getBaseUrl, getMetaData } from '@/helpers';
 import type { Tags } from '@/helpers/db';
 
 async function GetTags(languageCode: string) {
@@ -20,7 +20,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const LL = i18nObject(params.lang as Locales);
 
     return {
-        title: `${LL.siteTitle()} - ${LL.TAGS_PAGE()}`,
+        title: LL.TAGS_PAGE(),
+        description: LL.DESCRIPTION_TAGS(),
+        ...getMetaData(
+            {
+                params: {
+                    title: `${LL.siteTitle()} | ${LL.TAGS_PAGE()}`,
+                    languageCode: params.lang,
+                    description: LL.DESCRIPTION_TAGS(),
+                    currentPath: '/tags',
+                }
+            }
+        )
     }
 }
 
@@ -41,6 +52,6 @@ export default async function Tags({ params }: PageProps) {
 
 interface PageProps {
     params: {
-        lang: string,
+        lang: Locales,
     }
 }

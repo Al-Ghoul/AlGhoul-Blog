@@ -2,7 +2,7 @@ import { loadLocaleAsync } from '@/i18n/i18n-util.async';
 import { i18nObject } from '@/i18n/i18n-util';
 import type { Locales } from '@/i18n/i18n-types';
 import { Metadata } from 'next'
-import { CapitalizeFirstLetter, getBaseUrl } from '@/helpers';
+import { CapitalizeFirstLetter, getBaseUrl, getMetaData } from '@/helpers';
 import CommonContainer from '@/components/general/CommonContainer';
 import { notFound } from 'next/navigation';
 import type { Posts } from '@/helpers/db';
@@ -16,12 +16,22 @@ async function GetPosts(tagName: string, languageCode: string) {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    const tag = decodeURI(params.tag);
     await loadLocaleAsync(params.lang as Locales);
     const LL = i18nObject(params.lang as Locales);
-    const tag = decodeURI(params.tag);
 
     return {
-        title: `${LL.siteTitle()} - ${CapitalizeFirstLetter(tag)}`,
+        title: CapitalizeFirstLetter(tag),
+        ...getMetaData(
+            {
+                params: {
+                    title: `${LL.siteTitle()} | ${CapitalizeFirstLetter(tag)}`,
+                    languageCode: params.lang,
+                    description: LL.DESCRIPTION(),
+                    currentPath: `/tag/${tag}`,
+                }
+            }
+        )
     }
 }
 
@@ -44,7 +54,7 @@ export default async function TagPage({ params }: PageProps) {
 
 interface PageProps {
     params: {
-        lang: string,
+        lang: Locales,
         tag: string,
     }
 }

@@ -3,7 +3,7 @@ import { i18nObject } from '@/i18n/i18n-util';
 import type { Locales } from '@/i18n/i18n-types';
 import CommonContainer from '@/components/general/CommonContainer';
 import { Metadata } from 'next'
-import { CapitalizeFirstLetter, getBaseUrl } from '@/helpers';
+import { CapitalizeFirstLetter, getBaseUrl, getMetaData } from '@/helpers';
 import { notFound } from 'next/navigation';
 import type { Authors, AuthorsPostsType } from '@/helpers/db';
 
@@ -18,12 +18,39 @@ async function GetAuthorWithPosts(authorName: string, languageCode: string) {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    const authorName = decodeURI(params.author);
+    const data = await GetAuthorWithPosts(decodeURI(params.author), params.lang).catch(() => notFound());
+    if (!data || !data.authorsPosts.length) notFound();
     await loadLocaleAsync(params.lang as Locales);
     const LL = i18nObject(params.lang as Locales);
-    const authorName = decodeURI(params.author);
+
+    const { openGraph, twitter, alternates } = getMetaData(
+        {
+            params: {
+                title: `${LL.siteTitle()} | ${CapitalizeFirstLetter(authorName)}`,
+                languageCode: params.lang,
+                description: data.author.bio,
+                currentPath: `/author/${data.author.name}`,
+                dropAlternates: true
+            }
+        }
+    );
 
     return {
-        title: `${LL.siteTitle()} - ${CapitalizeFirstLetter(authorName)}`,
+        title: CapitalizeFirstLetter(authorName),
+        description: data.author.bio,
+        alternates: {
+            ...alternates
+        },
+        openGraph: {
+            ...openGraph,
+            type: 'profile',
+            username: data.author.name,
+            locale: params.lang,
+        },
+        twitter: {
+            ...twitter,
+        }
     }
 }
 
@@ -47,7 +74,7 @@ export default async function AuthorPage({ params }: PageProps) {
 
 interface PageProps {
     params: {
-        lang: string,
+        lang: Locales,
         author: string,
     }
 }

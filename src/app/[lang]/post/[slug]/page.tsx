@@ -6,8 +6,9 @@ import Link from 'next/link';
 import type { PostType } from '@/helpers/db';
 import { notFound } from 'next/navigation';
 import Header from '@/components/general/Header';
-import { formatDate, getBaseUrl } from '@/helpers';
+import { formatDate, getBaseUrl, getMetaData } from '@/helpers';
 import MDXRenderer from '@/components/general/MDXRenderer';
+import type { Metadata } from 'next'
 
 async function GetPostData(slug: string, languageCode: string) {
     const res = await fetch(`${getBaseUrl()}/api/post/${slug}/${languageCode}`, { next: { tags: ["postsData"] } });
@@ -15,6 +16,44 @@ async function GetPostData(slug: string, languageCode: string) {
     if (!res.ok) throw new Error("Failed to fetch data");
 
     return res.json() as Promise<{ post: PostType }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    const { post } = await GetPostData(decodeURI(params.slug), params.lang).catch(() => notFound());
+    if (!post) notFound();
+    await loadLocaleAsync(params.lang as Locales);
+    const LL = i18nObject(params.lang as Locales);
+    const { openGraph, twitter, alternates } = getMetaData(
+        {
+            params: {
+                title: `${LL.siteTitle()} | ${post.title}`,
+                languageCode: params.lang,
+                description: post.description,
+                currentPath: `/post/${post.title}`,
+                dropAlternates: true
+            }
+        }
+    );
+    return {
+        title: post.title,
+        description: post.description,
+        authors: { name: post.author.name, url: new URL(`${getBaseUrl()}/${params.lang}/author/${post.author.name}`) },
+        keywords: post.tags.map(tag => tag.name),
+        alternates: {
+            ...alternates
+        },
+        openGraph: {
+            ...openGraph,
+            type: 'article',
+            locale: params.lang,
+            tags: post.tags.map(tag => tag.name),
+            publishedTime: post.date.toString(),
+            authors: post.author.name,
+        },
+        twitter: {
+            ...twitter,
+        }
+    }
 }
 
 const PostPage = async ({ params }: PageProps) => {

@@ -64,11 +64,12 @@ model Author {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String   @db.Text
-  date      DateTime @default(now())
-  published Boolean
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String   @db.Text
+  description String   @default("") @db.Text
+  date        DateTime @default(now())
+  published   Boolean
 
   author   Author @relation(fields: [authorId], references: [id])
   authorId Int

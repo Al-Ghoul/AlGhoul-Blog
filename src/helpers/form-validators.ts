@@ -59,6 +59,7 @@ export const TopicTranslationInputSchema = z.object({
 export const PostInputSchema = z.object({
     title: z.string(),
     content: z.string(),
+    description: z.string(),
     authorId: z.number(),
     languageId: z.number(),
     topicId: z.number(),

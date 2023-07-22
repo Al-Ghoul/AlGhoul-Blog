@@ -1,6 +1,8 @@
 
 
+import type { Locales } from "@/i18n/i18n-types";
 import type { Authors, Posts, Tags, Topics } from "./db";
+import type { LocalizedString } from "typesafe-i18n";
 
 export const formatDate = (date: string, languageCode: string) => {
     const inputDate = new Date(date);
@@ -41,3 +43,61 @@ export const getBaseUrl = () => {
 };
 
 export const fetcher = (key: string) => fetch(key).then(res => res.json())
+
+
+export const getMetaData = ({ params }:
+    {
+        params: {
+            title: string,
+            languageCode?: Locales,
+            description: string,
+            currentPath: string,
+            dropAlternates?: boolean
+        }
+    }
+) => {
+
+    const { title, languageCode, description, currentPath, dropAlternates } = params;
+    const alternates = (dropAlternates !== true ? {
+        languages: {
+            'ar': `/ar/${currentPath}`,
+            'en': `/en/${currentPath}`,
+            'en-US': `/en/${currentPath}`,
+        },
+    } : {});
+
+    return (
+        {
+            alternates: {
+                canonical: `/${languageCode}/${currentPath}`,
+                ...alternates
+            },
+            openGraph: {
+                title,
+                type: 'website',
+                url: `/${languageCode}/${currentPath}`,
+                description: description,
+                images: [
+                    {
+                        url: `${getBaseUrl()}/opengraph-image.png`,
+                        width: 2048,
+                        height: 2048,
+                    },
+                ],
+            },
+            twitter: {
+                creator: '@abdo_alghoul',
+                creatorId: '960225296258564096',
+                description: description,
+                card: "summary",
+                images: [
+                    {
+                        url: `${getBaseUrl()}/twitter-image.png`,
+                        width: 2048,
+                        height: 2048,
+                    },
+                ]
+            }
+        }
+    );
+}
