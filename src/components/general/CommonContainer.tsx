@@ -19,10 +19,10 @@ const CommonContainer = async ({ lang, header, contentList, author }: Props) => 
                         {header}
                     </p>
                     {author !== undefined &&
-                        <div className='flex text-white gap-2'>
+                        <div className='flex flex-col md:flex-row text-white gap-2'>
                             <p className='mt-auto'>{author!.bio}</p>
                             <Image
-                                className='rounded-full'
+                                className='rounded-full self-center -order-1 md:order-1'
                                 width={70}
                                 height={70}
                                 src={author!.profileImageURL}

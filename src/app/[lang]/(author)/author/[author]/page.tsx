@@ -8,7 +8,7 @@ import { notFound } from 'next/navigation';
 import type { Authors, AuthorsPostsType } from '@/helpers/db';
 
 async function GetAuthorWithPosts(authorName: string, languageCode: string) {
-    const res = await fetch(`${getBaseUrl()}/api/author/${languageCode}/${authorName}`, { next: { tags: ["authorPosts"] } })
+    const res = await fetch(`${getBaseUrl()}/api/author/${languageCode}/${authorName}`, { next: { tags: ["authorsPosts"] } })
 
     if (!res.ok) {
         throw new Error('Failed to fetch data')

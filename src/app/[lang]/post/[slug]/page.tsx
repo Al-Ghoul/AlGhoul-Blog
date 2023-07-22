@@ -84,13 +84,12 @@ const PostPage = async ({ params }: PageProps) => {
                                     </div>
                                     <p className='self-center'>{post.author.name}</p>
                                 </Link>
-                                <p className='self-center px-2'>{post.author.bio}</p>
                                 <p className='mt-2'>{`${LL.POSTED_AT()} ${formatDate(post.date.toString(), params.lang)}`}</p>
                             </div>
 
                             <div className='flex flex-col'>
                                 <p className='mx-auto'>{LL.TAGS_PAGE()}</p>
-                                <ul className='flex flex-wrap p-3'>
+                                <ul className='flex flex-wrap md:p-3'>
                                     {post.tags.map(tag => <li className='mx-1 underline hover:text-blue-400' key={tag.id}><Link href={`/${params.lang}/tag/${tag.name}`}>{tag.name}</Link></li>)}
                                 </ul>
                             </div>

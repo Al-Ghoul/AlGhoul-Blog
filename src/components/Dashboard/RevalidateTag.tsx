@@ -30,7 +30,7 @@ const RevalidateTag = () => {
                 isSuccess &&
                 <SuccessAlert content={`${validatedTag} was validated successfully`} />
             }
-            <div className="flex justify-center gap-2">
+            <div className="flex flex-wrap justify-center gap-2">
                 <button className="bg-blue-500 rounded-full p-2 disabled:bg-black text-white" disabled={isPending} onClick={() => startTransition(() => revalidateTagAction("postsData").then(() => {
                     setIsError(false);
                     setValidatedTag("Posts Data")
