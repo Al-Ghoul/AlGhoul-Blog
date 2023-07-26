@@ -8,6 +8,7 @@ import { NextAuthProvider } from '@/components/general/Provider';
 import { cookies } from 'next/headers'
 import { Metadata } from 'next'
 import { getBaseUrl } from '@/helpers';
+import Script from 'next/script';
 
 
 export const metadata: Metadata = {
@@ -155,6 +156,10 @@ export default async function RootLayout({
         </footer>
       </body>
 
+      <Script
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9439484885967303"
+        crossOrigin='anonymous'
+      />
     </html>
   );
 }
