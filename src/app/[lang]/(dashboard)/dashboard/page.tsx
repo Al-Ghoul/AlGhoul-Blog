@@ -11,21 +11,21 @@ import { getServerSession } from "next-auth/next"
 
 
 async function fetchLanguages() {
-    const res = await fetch(`${getBaseUrl()}/api/languages`);
+    const res = await fetch(`${getBaseUrl()}/api/languages`, { next: { tags: ["languages"] } });
 
     if (!res.ok) throw new Error("Failed to fetch data");
     return res.json() as Promise<{ languages: LanguageType }>;
 }
 
 async function fetchTags() {
-    const res = await fetch(`${getBaseUrl()}/api/tags?include=language`);
+    const res = await fetch(`${getBaseUrl()}/api/tags?include=language`,  { next: { tags: ["tags"] } });
 
     if (!res.ok) throw new Error("Failed to fetch data");
     return res.json() as Promise<{ tags: Array<TagWithLanguage> }>;
 }
 
 async function fetchMainTopics() {
-    const res = await fetch(`${getBaseUrl()}/api/maintopics`);
+    const res = await fetch(`${getBaseUrl()}/api/maintopics`,  { next: { tags: ["maintopics"] } });
 
     if (!res.ok) throw new Error("Failed to fetch data");
     return res.json() as Promise<{ topics: MainTopicsType }>;
@@ -33,7 +33,7 @@ async function fetchMainTopics() {
 
 
 async function fetchAuthorsWithLanguages() {
-    const res = await fetch(`${getBaseUrl()}/api/authors?include=language`);
+    const res = await fetch(`${getBaseUrl()}/api/authors?include=language`,  { next: { tags: ["authors"] } });
 
     if (!res.ok) throw new Error("Failed to fetch data");
     return res.json() as Promise<{ authors: Array<AuthorWithLanguage> }>;
@@ -49,7 +49,7 @@ const DashboardPage = async () => {
 
 
     return (
-        <main className="flex min-h-screen p-1 md:p-24 md:px-48">
+        <main className="flex min-h-screen p-1 lg:p-24">
             <div className="flex-col min-w-full mx-auto lg:mb-16 mb-8 backdrop-blur-3xl bg-blue-800/70 rounded-xl p-3">
                 <DashboardTabs
                     createAuthorComponent={<CreateAuthor languages={languages} currentUserId={session?.user.id!} currentUserProfileImage={session?.user.image!} />}

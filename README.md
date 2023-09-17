@@ -14,6 +14,22 @@ pnpm dev
 Read the following for API docs:
 [Authors API](/src/app/api/(authors)/AuthorsAPI.md), [Languages API](/src/app/api/(languages)/LanguagesAPI.md), [Main Topics API](/src/app/api/(mainTopics)/MainTopicsAPI.md), [Posts API](/src/app/api/(posts)/PostsAPI.md), [Tags API](/src/app/api/(tags)/TagsAPI.md) & [Topics API](/src/app/api/(topics)/TopicsAPI.md).
 
+___
+## Cache Tags
+
+| Tag                   |                Link                | Path                              |
+| :-------------------- | :-----------------------------------------------------: | :-------------------------------- |
+| `postsData`           |    Home Page Posts & Specific Posts View                | app/[lang]/page.tsx, app/[lang]/post/[id]/page.tsx  |
+| `authorsPosts`        |    Author's Posts                                       | app/[lang]/(author)/author/[author]/page.tsx        |
+| `tagsPosts`           |    Tag's Posts                                          | app/[lang]/(tag)/tag/[tagId]/page.tsx               |
+| `topicsPosts`         |    Topic's Posts                                        | app/[lang]/(topic)/topic/[topicId]/page.tsx         |
+| `authors`             |    Authors                                              | app/[lang]/(author)/authors/page.tsx, app/[lang]/(dashboard)/dashboard/page.tsx                 |
+| `tags`                |    Tags                                                 | app/[lang]/(tag)/tags/page.tsx                      |
+| `topics`              |    Topics                                               | app/[lang]/(topic)/topics/page.tsx                  |
+| `languages`           |    Languages                                            | app/[lang]/(dashboard)/dashboard/page.tsx                  |
+| `maintopics`          |    Main Topics                                          | app/[lang]/(dashboard)/dashboard/page.tsx                  |
+
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.

@@ -34,7 +34,7 @@ const RevalidateTag = () => {
       <div className="flex flex-wrap justify-center gap-2">
         <button className="bg-blue-500 rounded-full p-2 disabled:bg-black text-white" disabled={isPending} onClick={() => startTransition(() => revalidateTagAction("postsData").then(() => {
           setIsError(false);
-          setValidatedTag("Posts Data")
+          setValidatedTag("postsData")
           setIsSuccess(true);
         })
           .catch(() => {
@@ -44,7 +44,7 @@ const RevalidateTag = () => {
 
         <button className="bg-blue-500 rounded-full p-2 disabled:bg-black text-white" disabled={isPending} onClick={() => startTransition(() => revalidateTagAction("authorsPosts").then(() => {
           setIsError(false);
-          setValidatedTag("Authors Posts")
+          setValidatedTag("authorsPosts")
           setIsSuccess(true);
         })
           .catch(() => {
@@ -53,7 +53,7 @@ const RevalidateTag = () => {
           }))}>Revalidate Authors Posts</button>
         <button className="bg-blue-500 rounded-full p-2 disabled:bg-black text-white" disabled={isPending} onClick={() => startTransition(() => revalidateTagAction("tagsPosts").then(() => {
           setIsError(false);
-          setValidatedTag("Tags Posts")
+          setValidatedTag("tagsPosts")
           setIsSuccess(true);
         })
           .catch(() => {
@@ -62,7 +62,7 @@ const RevalidateTag = () => {
           }))}>Revalidate Tags Posts</button>
         <button className="bg-blue-500 rounded-full p-2 disabled:bg-black text-white" disabled={isPending} onClick={() => startTransition(() => revalidateTagAction("topicsPosts").then(() => {
           setIsError(false);
-          setValidatedTag("Topics Posts")
+          setValidatedTag("topicsPosts")
           setIsSuccess(true);
         })
           .catch(() => {
@@ -72,7 +72,7 @@ const RevalidateTag = () => {
 
         <button className="bg-blue-500 rounded-full p-2 disabled:bg-black text-white" disabled={isPending} onClick={() => startTransition(() => revalidateTagAction("authors").then(() => {
           setIsError(false);
-          setValidatedTag("Authors Data")
+          setValidatedTag("authors")
           setIsSuccess(true);
         })
           .catch(() => {
@@ -81,7 +81,7 @@ const RevalidateTag = () => {
           }))}>Revalidate Authors</button>
         <button className="bg-blue-500 rounded-full p-2 disabled:bg-black text-white" disabled={isPending} onClick={() => startTransition(() => revalidateTagAction("tags").then(() => {
           setIsError(false);
-          setValidatedTag("Tags Data")
+          setValidatedTag("tags")
           setIsSuccess(true);
         })
           .catch(() => {
@@ -90,13 +90,23 @@ const RevalidateTag = () => {
           }))}>Revalidate Tags</button>
         <button className="bg-blue-500 rounded-full p-2 disabled:bg-black text-white" disabled={isPending} onClick={() => startTransition(() => revalidateTagAction("topics").then(() => {
           setIsError(false);
-          setValidatedTag("Topics Data")
+          setValidatedTag("topics")
+          setValidatedTag("maintopics")
           setIsSuccess(true);
         })
           .catch(() => {
             setIsSuccess(false);
             setIsError(true);
           }))}>Revalidate Topics</button>
+        <button className="bg-blue-500 rounded-full p-2 disabled:bg-black text-white" disabled={isPending} onClick={() => startTransition(() => revalidateTagAction("topics").then(() => {
+          setIsError(false);
+          setValidatedTag("languages")
+          setIsSuccess(true);
+        })
+          .catch(() => {
+            setIsSuccess(false);
+            setIsError(true);
+          }))}>Revalidate Languages</button>
       </div>
     </>
   );

@@ -64,7 +64,7 @@ const PostPage = async ({ params }: PageProps) => {
     return (
         <>
             <Header lang={params.lang} />
-            <main className="flex min-h-screen p-0 md:p-24 md:px-48">
+            <main className="flex min-h-screen p-1 lg:p-24">
                 <div className="flex min-w-full justify-between mx-auto max-w-screen-lg backdrop-blur-3xl bg-blue-800/30 text-white rounded-md">
                     <article
                         className='flex w-full hyphens-auto'
