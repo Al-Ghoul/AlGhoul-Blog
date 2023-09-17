@@ -6,24 +6,22 @@ import Welcome from '@/components/general/Welcome';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import type { TopTwoPostsType } from '@/helpers/db';
 import { formatDate, getBaseUrl } from '@/helpers';
 import Header from '@/components/general/Header';
 
 
-async function GetTopTwoPosts(languadeCode: string) {
-  const res = await fetch(`${getBaseUrl()}/api/posts/${languadeCode}`, { next: { tags: ["postsData"] } });
+async function fetchTopTwoPosts(languadeCode: string) {
+  const res = await fetch(`${getBaseUrl()}/api/posts/?langCode=${languadeCode}&count=6&include=author,tags&orderBy=date&desc`, { next: { tags: ["postsData"] } });
 
   if (!res.ok) throw new Error("Failed to fetch data");
-
-  return res.json() as Promise<{ posts: TopTwoPostsType }>;
+  return res.json() as Promise<{ posts: Array<PostWithAuthorAndTags> }>;
 }
 
 export default async function Home({ params }: PageProps) {
   if (!['ar', 'en'].includes(params.lang.toLowerCase())) notFound();
   await loadLocaleAsync(params.lang as Locales);
   const LL = i18nObject(params.lang as Locales);
-  const { posts } = await GetTopTwoPosts(params.lang).catch(() => ({ posts: [] }));
+  const { posts } = await fetchTopTwoPosts(params.lang).catch(() => ({ posts: [] }));
 
   return (
     <>
@@ -66,7 +64,7 @@ export default async function Home({ params }: PageProps) {
                     </div>
 
                     <h2 className="mb-2 text-2xl font-bold tracking-tight text-white">
-                      <Link href={`/${params.lang}/post/${post.title}`}>
+                      <Link href={`/${params.lang}/post/${post.id}`}>
                         {post.title}
                       </Link>
                     </h2>

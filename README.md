@@ -11,6 +11,8 @@ yarn dev
 # or
 pnpm dev
 ```
+Read the following for API docs:
+[Authors API](/src/app/api/(authors)/AuthorsAPI.md), [Languages API](/src/app/api/(languages)/LanguagesAPI.md), [Main Topics API](/src/app/api/(mainTopics)/MainTopicsAPI.md), [Posts API](/src/app/api/(posts)/PostsAPI.md), [Tags API](/src/app/api/(tags)/TagsAPI.md) & [Topics API](/src/app/api/(topics)/TopicsAPI.md).
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

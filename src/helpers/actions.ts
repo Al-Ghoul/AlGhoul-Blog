@@ -72,12 +72,12 @@ export const editPost = async (input: PostInputType, tagList: Array<number>, pos
     revalidateTag("postsData");
 }
 
-export const editAuthor = async (input: AuthorInputType, authorId: number) => {
+export const editAuthor = async (input: AuthorInputType, authorName: string) => {
     await IsAdminUser();
 
     AuthorInputSchema.parse(input)
 
-    await prisma.author.update({ where: { id: authorId }, data: { ...input } });
+    await prisma.author.update({ where: { name: authorName }, data: { ...input } });
     revalidateTag("authors");
 }
 

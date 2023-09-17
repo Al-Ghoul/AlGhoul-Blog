@@ -1,8 +1,6 @@
 
 
 import type { Locales } from "@/i18n/i18n-types";
-import type { Authors, Posts, Tags, Topics } from "./db";
-import type { LocalizedString } from "typesafe-i18n";
 
 export const formatDate = (date: string, languageCode: string) => {
     const inputDate = new Date(date);
@@ -17,23 +15,23 @@ export const formatDate = (date: string, languageCode: string) => {
 export const CapitalizeFirstLetter = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1);
 
 
-export function isAuthor(author: Entity): author is Authors {
-    return (author[0] as Authors[0]).profileImageURL !== undefined;
+export function isAuthor(author: Entity): author is AuthorType {
+    return (author[0] as AuthorType[0]).profileImageURL !== undefined;
 }
 
-export function isPost(post: Entity): post is Posts {
-    return (post[0] as Posts[0]).published !== undefined;
+export function isPost(post: Entity): post is PostType {
+    return (post[0] as PostType[0]).published !== undefined;
 }
 
-export function isTag(tag: Entity): tag is Tags {
-    return (tag[0] as Tags[0]).icon !== undefined;
+export function isTag(tag: Entity): tag is TagType {
+    return (tag[0] as TagType[0]).icon !== undefined;
 }
 
-export function isTopic(topic: Entity): topic is Topics {
-    return (topic[0] as Topics[0]).translation !== undefined;
+export function isTopic(topic: Entity): topic is TopicType {
+    return (topic[0] as TopicType[0]).translation !== undefined;
 }
 
-export type Entity = Authors | Tags | Posts | Topics;
+export type Entity = AuthorType | TagType | PostType | TopicType;
 
 
 export const getBaseUrl = () => {

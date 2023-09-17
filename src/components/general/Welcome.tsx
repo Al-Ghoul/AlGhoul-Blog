@@ -42,7 +42,7 @@ const Welcome = ({ lanugage, message, styles }: Props) => {
                             autoStart: true,
                             delay: 25,
                             deleteSpeed: 5,
-                            wrapperClassName: 'text-base md:text-2xl font-cairo text-white backdrop-blur-md bg-black/25 font-bold',
+                            wrapperClassName: 'text-base md:text-2xl font-cairo text-white bg-black/25 font-bold',
                             cursor: '|',
                             cursorClassName: 'text-white animate-[pulse_1s_ease-in-out_infinite] font-extrabold text-2xl'
                         }}

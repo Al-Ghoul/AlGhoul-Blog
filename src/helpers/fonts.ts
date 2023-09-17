@@ -6,8 +6,8 @@ import localFont from 'next/font/local';
 export const inter = Inter({
     subsets: ['latin'],
     display: 'swap',
-  })
-   
+})
+
 export const CairoFont = localFont({
     src: '../../public/fonts/Cairo/Cairo-VariableFont_slnt,wght.ttf',
     display: 'swap',

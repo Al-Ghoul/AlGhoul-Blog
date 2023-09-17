@@ -9,6 +9,8 @@ import { cookies } from 'next/headers'
 import { Metadata } from 'next'
 import { getBaseUrl } from '@/helpers';
 import Script from 'next/script';
+import backgroundImage from '@/../public/images/background.png';
+import Image from 'next/image';
 
 
 export const metadata: Metadata = {
@@ -70,11 +72,32 @@ export default async function RootLayout({
   const LL = i18nObject(languageCode);
 
   return (
-    <html lang={languageCode} className={`bg-[url('/../images/background.png')] bg-cover bg-no-repeat 
-      ${inter.className} ${CairoFont.variable} ${Aref_Ruqaa.variable} bg-center md:bg-unset bg-fixed
+    <html lang={languageCode} className={`
+    bg-gradient-to-bl from-[#4A3470] to-[#326C85] 
+      ${inter.className} ${CairoFont.variable} ${Aref_Ruqaa.variable}
       scrollbar-thin scrollbar-thumb-[#326C85] scrollbar-track-[#4A3470] scrollbar-thumb-rounded-lg`}>
+      <body className='flex flex-col'>
 
-      <body>
+        <div
+          className="hidden lg:inline-block absolute top-20 self-center w-1/2 -z-10"
+          style={{
+            WebkitMaskImage:
+              'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 1.0) 20%, rgba(0, 0, 0, 1.0) 80%, transparent 100%)',
+          }}
+        >
+          <div>
+            <Image
+              src={backgroundImage}
+              alt=""
+              quality={90}
+              className="block relative -top-11 opacity-90"
+              style={{
+                WebkitMaskImage:
+                  'linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1.0) 20%, rgba(0, 0, 0, 1.0) 80%, transparent 100%)',
+              }}
+            />
+          </div>
+        </div>
 
         <NextAuthProvider>
           {children}

@@ -36,7 +36,7 @@ export default async function About({ params }: PageProps) {
             <Header lang={params.lang} />
 
             <main className="flex min-h-screen p-1 md:p-24  md:px-48">
-                <div className="flex flex-col min-w-full mx-auto lg:mb-16 mb-8 backdrop-blur-3xl bg-blue-800/70 rounded-xl p-3">
+                <div className="flex flex-col min-w-full mx-auto lg:mb-16 mb-8 backdrop-blur-3xl bg-blue-800/30 rounded-xl p-3">
                     <h1 className='self-center text-xl md:text-3xl whitespace-nowrap text-[#f53c3c] font-aref'>{LL.siteTitle()}</h1>
 
                     <article className='prose max-w-max prose-p:text-white prose-headings:text-white

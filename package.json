@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev -p 80",
-    "build": "typesafe-i18n & prisma generate & next build",
+    "build": "typesafe-i18n & prisma generate && next build",
     "start": "next start -p 80",
     "lint": "next lint",
     "typesafe-i18n": "typesafe-i18n"

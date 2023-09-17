@@ -1,5 +1,4 @@
 "use client";
-import { SearchPostsType } from "@/helpers/db";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import useSWRMutation from 'swr/mutation';
@@ -16,8 +15,8 @@ async function searchQuery(url: string, { arg }: { arg: string }) {
 
 const SearchBar = ({ languageCode }: Props) => {
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const [searchResults, setSearchResults] = useState<SearchPostsType>([]);
-    const { trigger, isMutating } = useSWRMutation('/api/post/search/', searchQuery);
+    const [searchResults, setSearchResults] = useState<PostType>([]);
+    const { trigger, isMutating } = useSWRMutation("/api/post/search/", searchQuery);
 
     return (
         <div className="flex flex-col relative">
