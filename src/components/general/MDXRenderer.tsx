@@ -1,4 +1,3 @@
-
 import { s } from 'hastscript';
 import remarkToc from 'remark-toc'
 import Callout from '@/components/general/Callout';
@@ -7,8 +6,14 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import "public/styles/highlight-js/androidstudio.css"
+import "public/styles/highlight-js/androidstudio.css";
+import "public/styles/katex/katex.min.css";
 import Pre from '@/components/general/pre';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import { BlockquoteHTMLAttributes, DetailedHTMLProps } from 'react'
+import { cookies } from 'next/headers';
+
 
 const MDXRenderer = async ({ content, languageCode }: ComponentProps) => {
   return (
@@ -27,34 +32,44 @@ const MDXRenderer = async ({ content, languageCode }: ComponentProps) => {
         source={content}
         options={{
           mdxOptions: {
-            remarkPlugins: [[remarkToc, { heading: 'toc|Table of contents|المحتوي' }], remarkGfm],
-            rehypePlugins: [rehypeHighlight, rehypeSlug, [rehypeAutolinkHeadings, {
-              content(node: any) {
-                return [
-                  s('svg', {
-                    xmlns: 'http://www.w3.org/2000/svg',
-                    fill: 'none',
-                    viewbox: '0 0 24 24',
-                    strokeWidth: '1.5',
-                    stroke: 'currentColor',
-                    className: "w-6 h-6 inline mr-1",
-                  }, [
-                    s('path', {
-                      strokeLinecap: 'round',
-                      strokeLinejoin: 'round',
-                      d: 'M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244'
-                    })
-                  ])
-                ]
-              }
-            }]],
+            remarkPlugins: [
+              [remarkToc, { heading: 'toc|Table of contents|المحتوي' }],
+              remarkGfm,
+              remarkMath
+            ],
+            rehypePlugins: [
+              rehypeHighlight,
+              rehypeSlug,
+              [rehypeAutolinkHeadings, {
+                content(node: any) {
+                  return [
+                    s('svg', {
+                      xmlns: 'http://www.w3.org/2000/svg',
+                      fill: 'none',
+                      viewbox: '0 0 24 24',
+                      strokeWidth: '1.5',
+                      stroke: 'currentColor',
+                      className: "w-6 h-6 inline mr-1",
+                    }, [
+                      s('path', {
+                        strokeLinecap: 'round',
+                        strokeLinejoin: 'round',
+                        d: 'M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244'
+                      })
+                    ])
+                  ]
+                }
+              }],
+              // @ts-ignore
+              rehypeKatex
+            ],
           },
         }}
         components={
           {
             pre: Pre,
             Callout,
-            blockquote: BlockQuote,
+            blockquote: BlockQuote
           }
         }
       />
@@ -62,8 +77,7 @@ const MDXRenderer = async ({ content, languageCode }: ComponentProps) => {
   )
 }
 
-import { BlockquoteHTMLAttributes, DetailedHTMLProps } from 'react'
-import { cookies } from 'next/headers';
+
 
 function BlockQuote(props: DetailedHTMLProps<BlockquoteHTMLAttributes<HTMLQuoteElement>, HTMLQuoteElement>) {
   const cookieStore = cookies()

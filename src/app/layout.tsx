@@ -60,6 +60,7 @@ export const metadata: Metadata = {
   },
 }
 
+
 export default async function RootLayout({
   children,
 }: {
@@ -98,6 +99,11 @@ export default async function RootLayout({
             />
           </div>
         </div>
+        
+        <Script
+          strategy='beforeInteractive'
+          src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"
+        />
 
         <NextAuthProvider>
           {children}

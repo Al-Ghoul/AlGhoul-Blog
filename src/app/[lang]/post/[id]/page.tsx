@@ -8,6 +8,8 @@ import Header from '@/components/general/Header';
 import { formatDate, getBaseUrl, getMetaData } from '@/helpers';
 import MDXRenderer from '@/components/general/MDXRenderer';
 import type { Metadata } from 'next'
+import Script from 'next/script';
+
 
 async function fetchPostData(id: string, languageCode: string) {
     const res = await fetch(`${getBaseUrl()}/api/posts/${id}/?langCode=${languageCode}&include=author,tags`, { next: { tags: ["postsData"] } });
@@ -16,6 +18,7 @@ async function fetchPostData(id: string, languageCode: string) {
 
     return res.json() as Promise<{ post: PostWithAuthorAndTags }>;
 }
+
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const { post } = await fetchPostData(params.id, params.lang).catch(() => notFound());

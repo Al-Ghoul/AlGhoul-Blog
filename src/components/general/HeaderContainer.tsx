@@ -11,6 +11,7 @@ import SearchBar from './SearchBar';
 import { useEffect } from 'react';
 import { BsGithub, BsDiscord } from "react-icons/bs";
 
+
 const HeaderContainer = ({ lang, headerLinks }: Props) => {
     const paths = usePathname().split('/');
     const currentActiveRoute = paths[paths.length - 1];
@@ -37,7 +38,7 @@ const HeaderContainer = ({ lang, headerLinks }: Props) => {
 
                 <SearchBar languageCode={lang} />
                 <LanguageSelector languageCode={lang} />
-                <div  className="flex gap-4 md:order-2">
+                <div className="flex gap-4 md:order-2">
                     <Link href="https://github.com/Al-Ghoul/AlGhoul-Blog">
                         <BsGithub size={24} />
                     </Link>

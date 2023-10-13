@@ -17,6 +17,7 @@ async function fetchTopTwoPosts(languadeCode: string) {
   return res.json() as Promise<{ posts: Array<PostWithAuthorAndTags> }>;
 }
 
+
 export default async function Home({ params }: PageProps) {
   if (!['ar', 'en'].includes(params.lang.toLowerCase())) notFound();
   await loadLocaleAsync(params.lang as Locales);
@@ -26,10 +27,8 @@ export default async function Home({ params }: PageProps) {
   return (
     <>
       <Header lang={params.lang} />
-
       <main className="flex min-h-screen flex-col items-center">
         <Welcome styles={'p-7 mt-20'} message={LL.WELCOMING[Math.floor(Math.random() * 2) as 0 | 1]()} lanugage={params.lang} />
-
         <section id='mainsection' dir={params.lang == 'ar' ? 'rtl' : ''}>
           <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
             <div className="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8 backdrop-blur-3xl bg-blue-800/70 rounded-xl p-3">
@@ -64,9 +63,9 @@ export default async function Home({ params }: PageProps) {
                     </div>
 
                     <h2 className="mb-2 text-2xl font-bold tracking-tight text-white">
-                      <Link href={`/${params.lang}/post/${post.id}`}>
+                      <a href={`/${params.lang}/post/${post.id}`}>
                         {post.title}
-                      </Link>
+                      </a>
                     </h2>
 
                     <p className="mb-5 font-light text-gray-200">{post.description.length > 1 ? `${post.description}` : 'No description?'}</p>
