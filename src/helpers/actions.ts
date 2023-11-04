@@ -39,7 +39,7 @@ export const createTopic = async (input: TopicInputType) => {
 
     const createdTopic = await prisma.topic.create({ data: { ...input } });
     if (!createdTopic) throw Error("Error occurred creating topic");
-    revalidateTag("topics");
+    revalidateTag("maintopics");
 }
 
 export const createTopicTranslation = async (input: TopicTranslationInputType) => {
