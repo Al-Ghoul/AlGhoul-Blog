@@ -6,9 +6,9 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "scripts": {
-    "dev": "next dev -p 80",
+    "dev": "next dev -p 5555",
     "build": "typesafe-i18n & prisma generate && next build",
-    "start": "next start -p 80",
+    "start": "next start -p 5555",
     "lint": "next lint",
     "typesafe-i18n": "typesafe-i18n"
   },
@@ -17,7 +17,7 @@
     "@mdx-js/react": "^2.3.0",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@next/mdx": "^13.4.10",
-    "@prisma/client": "4.16.2",
+    "@prisma/client": "5.6.0",
     "@tailwindcss/typography": "^0.5.9",
     "@types/hast": "^3.0.0",
     "@types/mdx": "^2.0.5",
@@ -54,7 +54,6 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "prisma": "^4.16.2",
     "tailwind-scrollbar": "^3.0.4"
   }
 }
