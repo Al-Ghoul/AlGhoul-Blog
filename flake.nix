@@ -128,7 +128,7 @@
               doCheck = true;
               dontInstall = true;
               checkPhase = ''
-                yarn test --testPathPattern="\\.unit.ts"
+                yarn test:units
                 touch $out
               '';
               dontFixup = true;
@@ -149,15 +149,15 @@
                 memSize = 2 * 1024;
                 dontPatch = true;
                 configurePhase =  ''
-                  mkdir -p ./data/.devenv/state
+                  mkdir -p data
+                  mkdir -p .devenv/state
 
                   mysql_install_db --no-defaults --datadir=$PWD/data
-                  cd data
-                  mysqld --user=root --datadir=$PWD/../data --socket=$PWD/.devenv/state/mysqld.sock --skip-name-resolve --bind-address=localhost  &
+                  mysqld --user=root --datadir=$PWD/data --socket=$PWD/.devenv/state/mysql.sock &
 
                   sleep 2
 
-                  mysql -w --socket=$PWD/.devenv/state/mysqld.sock -e"CREATE DATABASE DevDB;"
+                  mysql -w --socket=$PWD/.devenv/state/mysql.sock -e"CREATE DATABASE DevDB;"
            
                   export PRISMA_SCHEMA_ENGINE_BINARY=${prisma-engines}/bin/schema-engine
                   export PRISMA_QUERY_ENGINE_BINARY=${prisma-engines}/bin/query-engine
@@ -172,7 +172,7 @@
                 dontBuild = true;
                 doCheck = true;
                 checkPhase = ''
-                  dotenv -e ./.env.development yarn test -- --testPathPattern='\.integration.ts' -i --setupFilesAfterEnv
+                  yarn test:integration
                 '';
                 dontFixup = true;
           });
