@@ -25,7 +25,7 @@
 
          services.mysql = {
            enable = true;
-           initialDatabases = [{ name = "BlogDB"; }];
+           initialDatabases = [{ name = "DevDB"; }];
          };
 
          packages = [
@@ -34,128 +34,130 @@
            firefox-devedition
            openssl # For prisma
            nodePackages.prisma
-          ];
- 
-         enterShell = ''
-           echo "NextJS's development template env was set successfully"
-           echo "`${nodejs}/bin/node --version`"
-           export PRISMA_SCHEMA_ENGINE_BINARY=${prisma-engines}/bin/schema-engine
-           export PRISMA_QUERY_ENGINE_BINARY=${prisma-engines}/bin/query-engine
-           export PRISMA_QUERY_ENGINE_LIBRARY=${prisma-engines}/lib/libquery_engine.node
-           export PRISMA_FMT_BINARY=${prisma-engines}/bin/prisma-fmt
-         '';
-       })
-      ];
-    };
+           nodePackages.dotenv-cli
+        ];
+   
+           enterShell = ''
+             echo "NextJS's development template env was set successfully"
+             echo "`${nodejs}/bin/node --version`"
+             export PRISMA_SCHEMA_ENGINE_BINARY=${prisma-engines}/bin/schema-engine
+             export PRISMA_QUERY_ENGINE_BINARY=${prisma-engines}/bin/query-engine
+             export PRISMA_QUERY_ENGINE_LIBRARY=${prisma-engines}/lib/libquery_engine.node
+             export PRISMA_FMT_BINARY=${prisma-engines}/bin/prisma-fmt
+           '';
+         })
+        ];
+      };
 
-    hydraJobs = rec {
-      build =
-        with pkgs; mkYarnPackage {
-          name  = "Blog-build";
-          src = self;
-          version = (builtins.fromJSON (builtins.readFile ./package.json)).version;
+      hydraJobs = rec {
+        build =
+          with pkgs; mkYarnPackage {
+            name  = "Blog-build";
+            src = self;
+            version = (builtins.fromJSON (builtins.readFile ./package.json)).version;
 
-          nativeBuildInputs = [
-            fixup_yarn_lock
-            yarn
-            nodejs
-          ];
-
-          offlineCache = fetchYarnDeps {
-            yarnLock = self + "/yarn.lock";
-            hash = "sha256-Hzp7AVonRXbHHMIq8ux7JQI1l+a7Uzup7mH1B/h1uoc=";
-          }; 
-
-          configurePhase = ''
-            export HOME=$(mktemp -d)
-            fixup_yarn_lock yarn.lock
-            yarn config --offline set yarn-offline-mirror $offlineCache
-            yarn install --offline --frozen-lockfile --ignore-scripts --no-progress --non-interactive
-            patchShebangs node_modules/
-          '';
-
-          buildPhase = ''
-            runHook preBuild
-            yarn typesafe-i18n --no-watch
-            runHook postBuild
-          '';
-
-          installPhase = ''
-            runHook preInstall
-            mkdir -p $out
-            mv {.,}* $out
-            runHook postInstall
-          '';
-
-          doDist = false;
-          doCheck = false;
-          dontFixup = true;
-
-          passthru.tests.lint = runCommand "run-lint" { buildInputs = [ yarn ]; }
-          ''
-            export HOME=$(mktemp -d)
-            cp -r ${build}/{.,}* .
-            yarn lint
-            touch $out
-          '';
-
-          passthru.tests.unit-test = stdenvNoCC.mkDerivation {
-            name = "unit-tests";
-            src = ./.;
-
-            buildInputs = [
+            nativeBuildInputs = [
+              fixup_yarn_lock
               yarn
               nodejs
-              openssl # For prisma
-              nodePackages.prisma
-            ]; 
+            ];
 
-            dontPatch = true;
+            offlineCache = fetchYarnDeps {
+              yarnLock = self + "/yarn.lock";
+              hash = "sha256-Hzp7AVonRXbHHMIq8ux7JQI1l+a7Uzup7mH1B/h1uoc=";
+            }; 
+
+            configurePhase = ''
+              export HOME=$(mktemp -d)
+              fixup_yarn_lock yarn.lock
+              yarn config --offline set yarn-offline-mirror $offlineCache
+              yarn install --offline --frozen-lockfile --ignore-scripts --no-progress --non-interactive
+              patchShebangs node_modules/
+            '';
 
             buildPhase = ''
-              export PRISMA_SCHEMA_ENGINE_BINARY=${prisma-engines}/bin/schema-engine
-              export PRISMA_QUERY_ENGINE_BINARY=${prisma-engines}/bin/query-engine
-              export PRISMA_QUERY_ENGINE_LIBRARY=${prisma-engines}/lib/libquery_engine.node
-              export PRISMA_FMT_BINARY=${prisma-engines}/bin/prisma-fmt
-              export HOME=$(mktemp -d)
-              cp -r ${build}/{.,}* .
-              chmod +w ./node_modules
-              prisma generate
-              mv ./node_modules/.prisma/client/libquery_engine.node ./node_modules/.prisma/client/libquery_engine-linux-nixos.so.node
+              runHook preBuild
+              yarn typesafe-i18n --no-watch
+              runHook postBuild
             '';
 
-            doCheck = true;
-            dontInstall = true;
-            checkPhase = ''
-              yarn test --testPathPattern="\\.unit.ts"
+            installPhase = ''
+              runHook preInstall
+              mkdir -p $out
+              mv {.,}* $out
+              runHook postInstall
+            '';
+
+            doDist = false;
+            doCheck = false;
+            dontFixup = true;
+
+            passthru.tests.lint = runCommand "run-lint" { buildInputs = [ yarn ]; }
+            ''
+              export HOME=$(mktemp -d)
+              cp -r ${build}/{.,}* .
+              yarn lint
               touch $out
             '';
-            dontFixup = true;
-          };
-        
-          passthru.tests.integration-test = vmTools.runInLinuxVM (
-              stdenvNoCC.mkDerivation {
-                name = "integration-test";
-                src = build.out;
-                buildInputs = [
-                  mariadb
-                  yarn
-                  nodejs
-                  openssl # For prisma
-                  nodePackages.prisma
-                  nodePackages.dotenv-cli
+
+            passthru.tests.unit-test = stdenvNoCC.mkDerivation {
+              name = "unit-tests";
+              src = ./.;
+
+              buildInputs = [
+                yarn
+                nodejs
+                openssl # For prisma
+                nodePackages.prisma
+              ]; 
+
+              dontPatch = true;
+
+              buildPhase = ''
+                export PRISMA_SCHEMA_ENGINE_BINARY=${prisma-engines}/bin/schema-engine
+                export PRISMA_QUERY_ENGINE_BINARY=${prisma-engines}/bin/query-engine
+                export PRISMA_QUERY_ENGINE_LIBRARY=${prisma-engines}/lib/libquery_engine.node
+                export PRISMA_FMT_BINARY=${prisma-engines}/bin/prisma-fmt
+                export HOME=$(mktemp -d)
+                cp -r ${build}/{.,}* .
+                chmod +w ./node_modules
+                prisma generate
+                mv ./node_modules/.prisma/client/libquery_engine.node ./node_modules/.prisma/client/libquery_engine-linux-nixos.so.node
+              '';
+
+              doCheck = true;
+              dontInstall = true;
+              checkPhase = ''
+                yarn test --testPathPattern="\\.unit.ts"
+                touch $out
+              '';
+              dontFixup = true;
+            };
+          
+            passthru.tests.integration-test = vmTools.runInLinuxVM (
+                stdenvNoCC.mkDerivation {
+                  name = "integration-test";
+                  src = build.out;
+                  buildInputs = [
+                    mariadb
+                    yarn
+                    nodejs
+                    openssl # For prisma
+                    nodePackages.prisma
+                    nodePackages.dotenv-cli
                 ];
                 memSize = 2 * 1024;
                 dontPatch = true;
                 configurePhase =  ''
-                  mkdir ./data
+                  mkdir -p ./data/.devenv/state
 
-                  mysql_install_db --no-defaults --datadir=./data
-                  mysqld --user=root --datadir=$PWD/data --socket=$PWD/mysqld.sock --skip-name-resolve --bind-address=localhost  &
+                  mysql_install_db --no-defaults --datadir=$PWD/data
+                  cd data
+                  mysqld --user=root --datadir=$PWD/../data --socket=$PWD/.devenv/state/mysqld.sock --skip-name-resolve --bind-address=localhost  &
 
                   sleep 2
 
-                  mysql -w --socket=./mysqld.sock -e"CREATE DATABASE TestDB;"
+                  mysql -w --socket=./mysqld.sock -e"CREATE DATABASE DevDB;"
            
                   export PRISMA_SCHEMA_ENGINE_BINARY=${prisma-engines}/bin/schema-engine
                   export PRISMA_QUERY_ENGINE_BINARY=${prisma-engines}/bin/query-engine
