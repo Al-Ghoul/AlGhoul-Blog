@@ -39,7 +39,6 @@
          enterShell = ''
            echo "NextJS's development template env was set successfully"
            echo "`${nodejs}/bin/node --version`"
-           exec fish
            export PRISMA_SCHEMA_ENGINE_BINARY=${prisma-engines}/bin/schema-engine
            export PRISMA_QUERY_ENGINE_BINARY=${prisma-engines}/bin/query-engine
            export PRISMA_QUERY_ENGINE_LIBRARY=${prisma-engines}/lib/libquery_engine.node
