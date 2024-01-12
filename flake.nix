@@ -164,10 +164,10 @@
                   export PRISMA_QUERY_ENGINE_LIBRARY=${prisma-engines}/lib/libquery_engine.node
                   export PRISMA_FMT_BINARY=${prisma-engines}/bin/prisma-fmt
 
-                  dotenv -e ./.env.development prisma generate
+                  yarn migrate:dev
                   mv ./node_modules/.prisma/client/libquery_engine.node ./node_modules/.prisma/client/libquery_engine-linux-nixos.so.node
 
-                  dotenv -e ./.env.development prisma migrate deploy
+                  yarn deploy:dev
                 ''; 
                 dontBuild = true;
                 doCheck = true;
