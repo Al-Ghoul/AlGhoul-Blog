@@ -39,3 +39,7 @@ next-env.d.ts
 .contentlayer/
 .env
 docker-compose.yml
+
+# Nix files
+.devenv
+.direnv
