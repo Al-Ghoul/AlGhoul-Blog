@@ -109,6 +109,7 @@
                 nodejs
                 openssl # For prisma
                 nodePackages.prisma
+                nodePackages.dotenv-cli
               ]; 
 
               dontPatch = true;
