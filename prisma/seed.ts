@@ -1,4 +1,4 @@
-import { createLanguage } from "@/helpers/db";
+import { createLanguage } from "../src/helpers/db";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 

@@ -12,7 +12,8 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "typesafe-i18n": "typesafe-i18n"
+    "typesafe-i18n": "typesafe-i18n",
+    "migrate:dev": "dotenv -e ./.env.development -- prisma migrate dev"
   },
   "dependencies": {
     "@mdx-js/loader": "^2.3.0",

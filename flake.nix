@@ -157,7 +157,7 @@
 
                   sleep 2
 
-                  mysql -w --socket=./mysqld.sock -e"CREATE DATABASE DevDB;"
+                  mysql -w --socket=$PWD/.devenv/state/mysqld.sock -e"CREATE DATABASE DevDB;"
            
                   export PRISMA_SCHEMA_ENGINE_BINARY=${prisma-engines}/bin/schema-engine
                   export PRISMA_QUERY_ENGINE_BINARY=${prisma-engines}/bin/query-engine
