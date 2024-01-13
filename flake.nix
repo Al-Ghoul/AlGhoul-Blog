@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     devenv.url = "github:cachix/devenv/9ba9e3b908a12ddc6c43f88c52f2bf3c1d1e82c1";
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   nixConfig = {
@@ -12,57 +16,57 @@
   };
 
   outputs = { self, nixpkgs, devenv, ... } @ inputs:
-  let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs { inherit system; };
-  in
-  {
-    devShells."${system}".default = with pkgs; devenv.lib.mkShell {
-      inherit inputs pkgs;
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
+    in
+    {
+      devShells."${system}".default = with pkgs; devenv.lib.mkShell {
+        inherit inputs pkgs;
 
-      modules = [ 
-        ({ pkgs, config, ... }: {
+        modules = [
+          ({ ... }: {
 
-         services.mysql = {
-           enable = true;
-           initialDatabases = [{ name = "DevDB"; }];
-         };
+            services.mysql = {
+              enable = true;
+              initialDatabases = [{ name = "DevDB"; }];
+            };
 
-         packages = [
-           nodejs # For neovim's LSP (Remove it if you're not using neovim)
-           yarn
-           firefox-devedition
-           openssl # For prisma
-           nodePackages.prisma
-           nodePackages.dotenv-cli
-         ];
+            packages = [
+              nodejs # For neovim's LSP (Remove it if you're not using neovim)
+              yarn
+              firefox-devedition
+              openssl # For prisma
+              nodePackages.prisma
+              nodePackages.dotenv-cli
+            ];
 
-         env = {
-           PRISMA_SCHEMA_ENGINE_BINARY = "${prisma-engines}/bin/schema-engine";
-           PRISMA_QUERY_ENGINE_BINARY = "${prisma-engines}/bin/query-engine";
-           PRISMA_QUERY_ENGINE_LIBRARY = "${prisma-engines}/lib/libquery_engine.node";
-           PRISMA_FMT_BINARY = "${prisma-engines}/bin/prisma-fmt";
-         };
+            env = {
+              PRISMA_SCHEMA_ENGINE_BINARY = "${prisma-engines}/bin/schema-engine";
+              PRISMA_QUERY_ENGINE_BINARY = "${prisma-engines}/bin/query-engine";
+              PRISMA_QUERY_ENGINE_LIBRARY = "${prisma-engines}/lib/libquery_engine.node";
+              PRISMA_FMT_BINARY = "${prisma-engines}/bin/prisma-fmt";
+            };
 
-         pre-commit.hooks = {
-           deadnix.enable = true;
-           nixpkgs-fmt.enable = true;
-           # typescript/js:
-           # Formatter
-           denofmt.enable = true;
-           # Linter
-           denolint.enable = true;
-           
-         };
-   
-         })
+            pre-commit.hooks = {
+              deadnix.enable = true;
+              nixpkgs-fmt.enable = true;
+              # typescript/js:
+              # Formatter
+              denofmt.enable = true;
+              # Linter
+              denolint.enable = true;
+
+            };
+
+          })
         ];
       };
 
       hydraJobs = rec {
         build =
           with pkgs; mkYarnPackage {
-            name  = "Blog-build";
+            name = "Blog-build";
             src = self;
             version = (builtins.fromJSON (builtins.readFile ./package.json)).version;
 
@@ -75,7 +79,7 @@
             offlineCache = fetchYarnDeps {
               yarnLock = self + "/yarn.lock";
               hash = "sha256-Hzp7AVonRXbHHMIq8ux7JQI1l+a7Uzup7mH1B/h1uoc=";
-            }; 
+            };
 
             configurePhase = ''
               export HOME=$(mktemp -d)
@@ -103,12 +107,12 @@
             dontFixup = true;
 
             passthru.tests.lint = runCommand "run-lint" { buildInputs = [ yarn ]; }
-            ''
-              export HOME=$(mktemp -d)
-              cp -r ${build}/{.,}* .
-              yarn lint
-              touch $out
-            '';
+              ''
+                export HOME=$(mktemp -d)
+                cp -r ${build}/{.,}* .
+                yarn lint
+                touch $out
+              '';
 
             passthru.tests.unit-test = stdenvNoCC.mkDerivation {
               name = "unit-tests";
@@ -120,7 +124,7 @@
                 openssl # For prisma
                 nodePackages.prisma
                 nodePackages.dotenv-cli
-              ]; 
+              ];
 
               dontPatch = true;
 
@@ -144,22 +148,22 @@
               '';
               dontFixup = true;
             };
-          
+
             passthru.tests.integration-test = vmTools.runInLinuxVM (
-                stdenvNoCC.mkDerivation {
-                  name = "integration-test";
-                  src = build.out;
-                  buildInputs = [
-                    mariadb
-                    yarn
-                    nodejs
-                    openssl # For prisma
-                    nodePackages.prisma
-                    nodePackages.dotenv-cli
+              stdenvNoCC.mkDerivation {
+                name = "integration-test";
+                src = build.out;
+                buildInputs = [
+                  mariadb
+                  yarn
+                  nodejs
+                  openssl # For prisma
+                  nodePackages.prisma
+                  nodePackages.dotenv-cli
                 ];
                 memSize = 2 * 1024;
                 dontPatch = true;
-                configurePhase =  ''
+                configurePhase = ''
                   mkdir -p data
                   mkdir -p .devenv/state
 
@@ -179,17 +183,17 @@
                   mv ./node_modules/.prisma/client/libquery_engine.node ./node_modules/.prisma/client/libquery_engine-linux-nixos.so.node
 
                   yarn deploy:dev
-                ''; 
+                '';
                 dontBuild = true;
                 doCheck = true;
                 checkPhase = ''
                   yarn test:integration
                 '';
                 dontFixup = true;
-          });
+              });
 
-        };
+          };
         tests = build.tests;
+      };
     };
-  };
 }
