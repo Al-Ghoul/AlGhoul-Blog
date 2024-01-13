@@ -1,11 +1,11 @@
 "use server";
 import prisma from "./client";
 import type {
-  TagInputType,
   AuthorInputType,
+  PostInputType,
+  TagInputType,
   TopicInputType,
   TopicTranslationInputType,
-  PostInputType,
 } from "./form-validators";
 import {
   AuthorInputSchema,
@@ -16,7 +16,7 @@ import {
 } from "./form-validators";
 import { revalidateTag } from "next/cache";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from ".";
 import { Locales } from "@/i18n/i18n-types";
 import { cookies } from "next/headers";
 
@@ -63,10 +63,11 @@ export const createTopicTranslation = async (
 
   TopicTranslationInputSchema.parse(input);
 
-  const createdTopicTranslation =
-    await prisma.topic_Language_Translation.create({ data: { ...input } });
-  if (!createdTopicTranslation)
+  const createdTopicTranslation = await prisma.topic_Language_Translation
+    .create({ data: { ...input } });
+  if (!createdTopicTranslation) {
     throw Error("Error occurred creating topic translation");
+  }
   revalidateTag("topics");
 };
 export const createPost = async (
@@ -150,8 +151,7 @@ export const revalidateTagAction = async (tag: string) => {
   revalidateTag(tag);
 };
 
-export const setLocale = async (locale: Locales) => {
+export const setLocale = (locale: Locales) => {
   const cookieStore = cookies();
   cookieStore.set("locale", locale, { secure: true });
 };
-

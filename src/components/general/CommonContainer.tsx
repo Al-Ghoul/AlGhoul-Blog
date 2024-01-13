@@ -1,9 +1,9 @@
-import { type Entity, isAuthor, isTag, isPost, isTopic } from "@/helpers";
+import { type Entity, isAuthor, isPost, isTag, isTopic } from "@/helpers";
 import Link from "next/link";
 import Image from "next/image";
 import prisma from "@/helpers/client";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/helpers";
 
 const CommonContainer = async ({
   lang,
@@ -88,7 +88,7 @@ const CommonContainer = async ({
             })}
 
           {isPost(contentList) &&
-            contentList.map(async (item) => {
+            contentList.map((item) => {
               return (
                 <li className="my-2 mr-5" key={item.id}>
                   <Link href={`/${lang}/post/${item.id}`}>{item.title}</Link>
@@ -105,7 +105,7 @@ const CommonContainer = async ({
             })}
 
           {isTopic(contentList) &&
-            contentList.map(async (item) => {
+            contentList.map((item) => {
               return (
                 <li className="my-2 mr-5" key={item.languageId}>
                   <Link href={`/${lang}/topic/${item.topicId}`}>
@@ -136,4 +136,3 @@ interface Props {
   contentList: Entity;
   author?: AuthorType[0] | null;
 }
-

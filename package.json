@@ -16,7 +16,9 @@
     "migrate:dev": "dotenv -e ./.env.development -- prisma migrate dev",
     "deploy:dev": "dotenv -e ./.env.development prisma migrate deploy",
     "test:integration": "dotenv -e ./.env.development yarn test -- --testPathPattern='\\.integration.ts' -i --setupFilesAfterEnv",
-    "test:units": "dotenv -e ./.env.env.development yarn test -- --testPathPattern='\\.unit.ts'"
+    "test:units": "dotenv -e ./.env.development yarn test -- --testPathPattern='\\.unit.ts'",
+    "int:build": "dotenv -e ./.env.development yarn build",
+    "int:start": "dotenv -e ./.env.development yarn start"
   },
   "dependencies": {
     "@mdx-js/loader": "^2.3.0",
@@ -39,7 +41,7 @@
     "framer-motion": "^10.12.16",
     "hastscript": "^7.2.0",
     "jest-mock-extended": "^3.0.5",
-    "next": "^13.5.3",
+    "next": "^14.0.4",
     "next-auth": "^4.22.1",
     "next-mdx-remote": "^4.4.1",
     "postcss": "8.4.24",

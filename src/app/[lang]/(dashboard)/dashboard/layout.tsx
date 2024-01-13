@@ -1,15 +1,16 @@
-import '@/app/globals.css';
-import { type Metadata } from 'next/types';
-import { loadLocaleAsync } from '@/i18n/i18n-util.async';
-import { i18nObject } from '@/i18n/i18n-util';
-import DashboardHeader from '@/components/general/DashboardHeader';
+import "@/app/globals.css";
+import { type Metadata } from "next/types";
+import { loadLocaleAsync } from "@/i18n/i18n-util.async";
+import { i18nObject } from "@/i18n/i18n-util";
+import DashboardHeader from "@/components/general/DashboardHeader";
 import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import type { Locales } from '@/i18n/i18n-types';
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/helpers";
+import type { Locales } from "@/i18n/i18n-types";
 
-export async function generateMetadata({ params }: { params: PageProps }): Promise<Metadata> {
-
+export async function generateMetadata(
+  { params }: { params: PageProps },
+): Promise<Metadata> {
   await loadLocaleAsync(params.lang);
   const LL = i18nObject(params.lang);
 
@@ -26,20 +27,20 @@ export async function generateMetadata({ params }: { params: PageProps }): Promi
         notranslate: true,
       },
     },
-  }
+  };
 }
 
 export default async function DashboardLayout({
-  children, params
+  children,
+  params,
 }: {
-  children: React.ReactNode,
-  params: PageProps
+  children: React.ReactNode;
+  params: PageProps;
 }) {
   const session = await getServerSession(authOptions);
-  if (!session?.user.is_admin) redirect('/');
+  if (!session?.user.is_admin) redirect("/");
   await loadLocaleAsync(params.lang);
   const LL = i18nObject(params.lang);
-
 
   return (
     <>
@@ -48,11 +49,9 @@ export default async function DashboardLayout({
         {children}
       </section>
     </>
-  )
+  );
 }
 
-
-
 interface PageProps {
-  lang: Locales
+  lang: Locales;
 }
