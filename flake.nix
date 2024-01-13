@@ -1,5 +1,5 @@
 {
-  description = "NextJS development environment";
+  description = "NextJS Dev, Build & CI/CD env.";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -17,7 +17,7 @@
     pkgs = import nixpkgs { inherit system; };
   in
   {
-    devShell."${system}" = with pkgs; devenv.lib.mkShell {
+    devShells."${system}".default = with pkgs; devenv.lib.mkShell {
       inherit inputs pkgs;
 
       modules = [ 
@@ -35,16 +35,26 @@
            openssl # For prisma
            nodePackages.prisma
            nodePackages.dotenv-cli
-        ];
+         ];
+
+         env = {
+           PRISMA_SCHEMA_ENGINE_BINARY = "${prisma-engines}/bin/schema-engine";
+           PRISMA_QUERY_ENGINE_BINARY = "${prisma-engines}/bin/query-engine";
+           PRISMA_QUERY_ENGINE_LIBRARY = "${prisma-engines}/lib/libquery_engine.node";
+           PRISMA_FMT_BINARY = "${prisma-engines}/bin/prisma-fmt";
+         };
+
+         pre-commit.hooks = {
+           deadnix.enable = true;
+           nixpkgs-fmt.enable = true;
+           # typescript/js:
+           # Formatter
+           denofmt.enable = true;
+           # Linter
+           denolint.enable = true;
+           
+         };
    
-           enterShell = ''
-             echo "NextJS's development template env was set successfully"
-             echo "`${nodejs}/bin/node --version`"
-             export PRISMA_SCHEMA_ENGINE_BINARY=${prisma-engines}/bin/schema-engine
-             export PRISMA_QUERY_ENGINE_BINARY=${prisma-engines}/bin/query-engine
-             export PRISMA_QUERY_ENGINE_LIBRARY=${prisma-engines}/lib/libquery_engine.node
-             export PRISMA_FMT_BINARY=${prisma-engines}/bin/prisma-fmt
-           '';
          })
         ];
       };
