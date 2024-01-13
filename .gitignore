@@ -43,3 +43,5 @@ docker-compose.yml
 # Nix files
 .devenv
 .direnv
+
+.pre-commit-config.yaml
