@@ -78,7 +78,7 @@
 
             offlineCache = fetchYarnDeps {
               yarnLock = self + "/yarn.lock";
-              hash = "sha256-Hzp7AVonRXbHHMIq8ux7JQI1l+a7Uzup7mH1B/h1uoc=";
+              hash = "sha256-0lOSD6TQ4iiOjHXhha64WwBK3qMNuzs9cKXV9nKGVQk=";
             };
 
             configurePhase = ''
