@@ -118,7 +118,7 @@ export default async function Home({ params }: PageProps) {
                         </Link>
                       </div>
 
-                      <Link
+                      <a
                         href={`/${params.lang}/post/${post.id}`}
                         className="inline-flex items-center font-medium text-white hover:underline"
                       >
@@ -147,7 +147,7 @@ export default async function Home({ params }: PageProps) {
                               />
                             )}
                         </svg>
-                      </Link>
+                      </a>
                     </div>
                   </article>
                 );
