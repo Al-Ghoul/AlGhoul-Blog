@@ -1,5 +1,4 @@
 import prisma from "@/helpers/client";
-import { searchParamsType } from "@/types/global";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {

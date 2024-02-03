@@ -1,4 +1,3 @@
-import { searchParamsType } from "@/types/global";
 import prisma from "./client";
 
 export async function getPosts({
