@@ -42,5 +42,11 @@
   ],
   "exclude": [
     "node_modules"
+  ],
+  "ts-node": {
+    "files": true
+  },
+  "files": [
+    "src/types/global.d.ts"
   ]
 }

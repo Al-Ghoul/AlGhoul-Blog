@@ -45,3 +45,8 @@ docker-compose.yml
 .direnv
 
 .pre-commit-config.yaml
+
+/result
+serviceAccount.json
+*-debug.log
+.env.production

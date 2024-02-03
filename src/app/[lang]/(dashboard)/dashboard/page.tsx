@@ -1,5 +1,6 @@
 import CreateAuthor from "@/components/Dashboard/CreateAuthor";
 import CreatePost from "@/components/Dashboard/CreatePost";
+import CreateProject from "@/components/Dashboard/CreateProject";
 import CreateTag from "@/components/Dashboard/CreateTag";
 import CreateTopic from "@/components/Dashboard/CreateTopic";
 import CreateTopicTranslation from "@/components/Dashboard/CreateTopicTranslation";
@@ -78,6 +79,12 @@ const DashboardPage = async () => {
             />
           }
           revalidateTagsComponent={<RevalidateTag />}
+          createProjectComponent={
+            <CreateProject
+              languages={languages}
+              tags={tags}
+            />
+          }
         />
       </div>
     </main>

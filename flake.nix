@@ -34,12 +34,14 @@
             };
 
             packages = [
-              nodejs # For neovim's LSP (Remove it if you're not using neovim)
+              nodejs
               yarn
               firefox-devedition
               openssl # For prisma
               nodePackages.prisma
               nodePackages.dotenv-cli
+              firebase-tools
+              jdk # For firebase-tools/emulator suite
             ];
 
             env = {
@@ -58,6 +60,10 @@
               # Linter
               denolint.enable = true;
             };
+
+            enterShell = ''
+              export PATH="node_modules/.bin:$PATH"
+            '';
 
           })
         ];
