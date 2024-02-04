@@ -1,5 +1,5 @@
 import "@/app/globals.css";
-import { CairoFont, Aref_Ruqaa, inter } from "@/helpers/fonts";
+import { Aref_Ruqaa, CairoFont, inter } from "@/helpers/fonts";
 import Link from "next/link";
 import { loadLocaleAsync } from "@/i18n/i18n-util.async";
 import { i18nObject } from "@/i18n/i18n-util";
@@ -171,7 +171,7 @@ export default async function RootLayout({
             </li>
 
             <li>
-              <Link href="https://discord.gg/nxA67CjQZY" target="_blank">
+              <Link href="https://discord.gg/DUmPDNRqYv" target="_blank">
                 <svg
                   className="h-5 w-5"
                   fill="white"
@@ -198,4 +198,3 @@ export default async function RootLayout({
     </html>
   );
 }
-
