@@ -97,7 +97,8 @@ model Tag {
   language   Language @relation(fields: [languageId], references: [id])
   languageId Int
 
-  posts Post[]
+  posts   Post[]
+  Project Project[]
 
   @@unique([name, languageId])
   @@index([languageId])
@@ -108,10 +109,11 @@ model Language {
   code String
   name String
 
-  posts   Post[]
-  tags    Tag[]
-  topics  Topic_Language_Translation[]
-  authors Author[]
+  posts    Post[]
+  tags     Tag[]
+  topics   Topic_Language_Translation[]
+  authors  Author[]
+  projects Project[]
 
   @@unique([code, name])
 }
@@ -134,4 +136,22 @@ model Topic_Language_Translation {
   @@id([topicId, languageId])
   @@index([topicId])
   @@index([languageId])
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String   @unique
+  description String
+  url         String
+  imageURL    String
+  createdAt   DateTime @default(now())
+
+  language   Language @relation(fields: [languageId], references: [id])
+  languageId Int
+
+  tag   Tag @relation(fields: [tagId], references: [id])
+  tagId Int
+
+  @@index([languageId])
+  @@index([tagId])
 }

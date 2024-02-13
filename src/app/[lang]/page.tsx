@@ -60,7 +60,7 @@ export default async function Home({ params }: PageProps) {
                         {post.tags.map((tag) => (
                           <Link
                             key={tag.id}
-                            href={`/${params.lang}/tag/${tag.name}`}
+                            href={`/${params.lang}/tag/${tag.id}`}
                           >
                             <span className="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded text-purple-400">
                               <svg
@@ -118,8 +118,8 @@ export default async function Home({ params }: PageProps) {
                         </Link>
                       </div>
 
-                      <Link
-                        href={`/${params.lang}/post/${post.title}`}
+                      <a
+                        href={`/${params.lang}/post/${post.id}`}
                         className="inline-flex items-center font-medium text-white hover:underline"
                       >
                         {LL.READ_MORE()}
@@ -147,7 +147,7 @@ export default async function Home({ params }: PageProps) {
                               />
                             )}
                         </svg>
-                      </Link>
+                      </a>
                     </div>
                   </article>
                 );

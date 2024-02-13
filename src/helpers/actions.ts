@@ -10,6 +10,7 @@ import type {
 import {
   AuthorInputSchema,
   PostInputSchema,
+  ProjectInputSchema,
   TagInputSchema,
   TopicInputSchema,
   TopicTranslationInputSchema,
@@ -19,6 +20,8 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from ".";
 import { Locales } from "@/i18n/i18n-types";
 import { cookies } from "next/headers";
+import { initFbAdmin } from "@/firebase/app";
+import { getDownloadURL, getStorage } from "firebase-admin/storage";
 
 async function IsAdminUser() {
   const session = await getServerSession(authOptions);
@@ -155,3 +158,61 @@ export const setLocale = (locale: Locales) => {
   const cookieStore = cookies();
   cookieStore.set("locale", locale, { secure: true });
 };
+
+export async function addProject(
+  _prevState: { message: string; success: boolean },
+  formData: FormData,
+) {
+  await IsAdminUser();
+
+  const inputFields = ProjectInputSchema.safeParse({
+    title: formData.get("title"),
+    description: formData.get("description"),
+    projectURL: formData.get("projectURL"),
+    img: formData.get("img"),
+    langId: parseInt(formData.get("langId")?.toString() || ""),
+    tagId: parseInt(formData.get("tagId")?.toString() || ""),
+  });
+
+  if (!inputFields.success) {
+    console.log(inputFields.error.flatten());
+    return {
+      message: "Please check all fields",
+      success: false,
+    };
+  }
+
+  let imageURL = null;
+  initFbAdmin();
+  if (
+    inputFields.data.img.name !== "undefined" && inputFields.data.img.size !== 0
+  ) {
+    const image = inputFields.data.img;
+    const imageBuffer = Buffer.from(await image.arrayBuffer());
+
+    const storageBucket = getStorage().bucket();
+    const file = storageBucket.file(`public/projects/${image.name}`);
+    await file.save(imageBuffer, {
+      metadata: {
+        contentType: image.type,
+      },
+    });
+    imageURL = await getDownloadURL(file);
+  }
+
+  await prisma.project.create({
+    data: {
+      title: inputFields.data.title,
+      description: inputFields.data.description,
+      imageURL: imageURL || "",
+      url: inputFields.data.projectURL,
+      tagId: inputFields.data.tagId,
+      languageId: inputFields.data.langId,
+    },
+  });
+
+  return {
+    message: "Project was added successfully.",
+    success: true,
+  };
+}

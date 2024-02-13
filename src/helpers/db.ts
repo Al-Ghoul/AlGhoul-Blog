@@ -9,16 +9,16 @@ export async function getPosts({
     queryParams;
 
   let queryString = {};
-  if (count && Number.isNaN(parseInt(count)) === false) {
-    queryString = { ...queryString, take: parseInt(count) };
+  if (count) {
+    queryString = { ...queryString, take: count };
   }
 
-  if (orderByKey && sortBy.length) {
+  if (orderByKey && sortBy?.length) {
     queryString = { ...queryString, orderBy: { [orderByKey]: sortBy } };
   }
 
   if (include?.length) {
-    const inclusionQueryString = {} as { [key: string]: any };
+    const inclusionQueryString = {} as { [key: string]: boolean };
     for (const inclusionStr of include) {
       inclusionQueryString[inclusionStr] = true;
     }
@@ -42,16 +42,16 @@ export async function getAuthors({
   const { languageCode, count, orderByKey, sortBy, include } = queryParams;
 
   let queryString = {};
-  if (count && Number.isNaN(parseInt(count)) === false) {
-    queryString = { ...queryString, take: parseInt(count) };
+  if (count) {
+    queryString = { ...queryString, take: count };
   }
 
-  if (orderByKey && sortBy.length) {
+  if (orderByKey && sortBy?.length) {
     queryString = { ...queryString, orderBy: { [orderByKey]: sortBy } };
   }
 
   if (include?.length) {
-    const inclusionQueryString = {} as { [key: string]: any };
+    const inclusionQueryString = {} as { [key: string]: boolean };
     for (const inclusionStr of include) {
       inclusionQueryString[inclusionStr] = true;
     }
@@ -78,16 +78,16 @@ export async function getTags({
   const { languageCode, count, orderByKey, sortBy, include } = queryParams;
 
   let queryString = {};
-  if (count && Number.isNaN(parseInt(count)) === false) {
-    queryString = { ...queryString, take: parseInt(count) };
+  if (count) {
+    queryString = { ...queryString, take: count };
   }
 
-  if (orderByKey && sortBy.length) {
+  if (orderByKey && sortBy?.length) {
     queryString = { ...queryString, orderBy: { [orderByKey]: sortBy } };
   }
 
   if (include?.length) {
-    const inclusionQueryString = {} as { [key: string]: any };
+    const inclusionQueryString = {} as { [key: string]: boolean };
     for (const inclusionStr of include) {
       inclusionQueryString[inclusionStr] = true;
     }
@@ -114,16 +114,16 @@ export async function getTopics({
   const { languageCode, count, orderByKey, sortBy, include } = queryParams;
 
   let queryString = {};
-  if (count && Number.isNaN(parseInt(count)) === false) {
-    queryString = { ...queryString, take: parseInt(count) };
+  if (count) {
+    queryString = { ...queryString, take: count };
   }
 
-  if (orderByKey && sortBy.length) {
+  if (orderByKey && sortBy?.length) {
     queryString = { ...queryString, orderBy: { [orderByKey]: sortBy } };
   }
 
   if (include?.length) {
-    const inclusionQueryString = {} as { [key: string]: any };
+    const inclusionQueryString = {} as { [key: string]: boolean };
     for (const inclusionStr of include) {
       inclusionQueryString[inclusionStr] = true;
     }
@@ -144,16 +144,16 @@ export async function getLanguages({
   const { languageCode, count, orderByKey, sortBy, include } = queryParams;
 
   let queryString = {};
-  if (count && Number.isNaN(parseInt(count)) === false) {
-    queryString = { ...queryString, take: parseInt(count) };
+  if (count) {
+    queryString = { ...queryString, take: count };
   }
 
-  if (orderByKey && sortBy.length) {
+  if (orderByKey && sortBy?.length) {
     queryString = { ...queryString, orderBy: { [orderByKey]: sortBy } };
   }
 
   if (include?.length) {
-    const inclusionQueryString = {} as { [key: string]: any };
+    const inclusionQueryString = {} as { [key: string]: boolean };
     for (const inclusionStr of include) {
       inclusionQueryString[inclusionStr] = true;
     }
@@ -184,4 +184,3 @@ type LanguageInput = {
 export async function createLanguage(input: LanguageInput) {
   return await prisma.language.create({ data: { ...input } });
 }
-
